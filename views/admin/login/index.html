@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录页面</title>
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="/static/css/uikit.min.css"/>
+    <!--    全局css-->
+    <link rel="stylesheet" href="/static/css/global.css">
+
+</head>
+<body>
+<style>
+    .login {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    /*在小于960 像素的屏幕，微小屏幕，更低分辨率的手机*/
+    @media (max-width: 960px) {
+        .login {
+            width: 100%;
+        }
+
+        .login-form {
+            padding: 20px;
+            width: 100%;
+        }
+
+        .uk-input.uk-form-width-large {
+            width: 100%;
+        }
+    }
+</style>
+<div class="w fcc login">
+    <form class="login-form">
+        <div class="uk-margin">
+            <input class="uk-input uk-form-width-large " id="username" type="text" name="username" placeholder="账号">
+        </div>
+        <div class="uk-margin">
+            <input class="uk-input uk-form-width-large " id="password" type="password" name="password"
+                   placeholder="密码">
+        </div>
+        <div class="uk-margin">
+            <a class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">登录</a>
+        </div>
+    </form>
+</div>
+
+<!-- UIkit JS -->
+<script src="/static/js/uikit.min.js"></script>
+<script src="/static/js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+
+    $('.uk-margin-small-bottom').click(function () {
+        var data = {
+            username: document.querySelector('#username').value,
+            password: document.querySelector('#password').value
+        }
+        // 发生post请求
+        $.ajax({
+            type: "POST",
+            url: "/admin/login",
+            data: data,
+            dataType: "json",
+            success: function (data) {
+                document.cookie = "token=" + data.token + ";path=/"
+                if (data.token) {
+                    location.href = "/admin/home"
+                } else {
+                    UIkit.notification({message: data.data, status: 'warning'})
+                }
+            }
+        });
+    })
+</script>
+</body>
+</html>

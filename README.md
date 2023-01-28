@@ -1,12 +1,12 @@
-# blog
+#  beego_blog_mvc
 
 #### 介绍
-{**以下是 Gitee 平台说明，您可以替换此简介**
-Gitee 是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用 Gitee 实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+beego开发的一个mvc的个人博客，博客自带前台和后台管理系统 持续开发中
 
 #### 软件架构
-软件架构说明
+软件架构说明  beego  mvc 开发
+
+博客前台暂停 响应式两屏   m屏 960px以上为一屏  960px以下为一屏幕
 
 
 #### 安装教程
@@ -15,6 +15,17 @@ Gitee 是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN�
 2.  xxxx
 3.  xxxx
 
+bee线上运营
+1. 打包 `bee pack -be GOOS=linux`
+2. 服务器上运行程序 `nohup ./app`
+3. 如果服务器上已经运行程序，需要先停止 
+   
+    查看程序pid `ps -ef | grep app`
+    
+    停止程序 `kill -9 pid`
+
+#### 存在bug
+1. 热门推荐哪里  无法左文字超出隐藏
 #### 使用说明
 
 1.  xxxx

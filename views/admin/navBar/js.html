@@ -1,0 +1,78 @@
+<script>
+  // 编辑
+  $('.navBar_edit').click(function () {
+    location.href = "/admin/navbar/edit?id=" + $(this).parent().find('input').val()
+  })
+  // 确定删除
+  $('.navBar_del').click(function () {
+    $('#navBar-delete').find("span").html($(this).parent().find('input').val())
+  })
+  $('.navBar-del-save').click(function () {
+    $.ajax({
+      type: "POST",
+      url: "/admin/navbar/del",
+      data: {
+        id: $(this).parent().parent().find("span").text()
+      },
+      dataType: "json",
+      success: function (data) {
+        window.location.href = "/admin/navbar"
+      }
+    });
+  })
+</script>
+<script>
+  $('#navBar_add').click(function (e) {
+    e.preventDefault()
+    let parents = $(this).parent().siblings()
+    let obj = {}
+    obj.title = parents.find("#form-horizontal-title").val()
+    obj.url = parents.find("#form-horizontal-url").val()
+    obj.sort = parents.find("#form-horizontal-sort").val()
+    obj.show = parents.find("#form-horizontal-show").val()
+    if (!obj.title) return  UIkit.notification({message: "导航栏标题不能为空", status: 'warning'})
+    $.ajax({
+      type: "POST",
+      url: "/admin/navbar/add",
+      data: obj,
+      dataType: "json",
+      success: function (data) {
+        if (data.code === 20000) {
+          UIkit.notification({message: data.msg, status: 'success'})
+          window.location.href = "/admin/navbar"
+        } else {
+          UIkit.notification({message: data.msg + data.data, status: 'danger'})
+        }
+
+      }
+    });
+  })
+</script>
+<script>
+    $('#navBar_edit').click(function (e) {
+        e.preventDefault()
+        let parents = $(this).parent().siblings()
+        let obj = {}
+        obj.title = parents.find("#form-horizontal-title").val()
+        obj.url = parents.find("#form-horizontal-url").val()
+        obj.sort = parents.find("#form-horizontal-sort").val()
+        obj.show = parents.find("#form-horizontal-show").val()
+        obj.id = $("input[name='id']").val()
+        if (!obj.title) UIkit.notification({message: "导航栏标题不能为空", status: 'warning'})
+        $.ajax({
+            type: "POST",
+            url: "/admin/navbar/edit",
+            data: obj,
+            dataType: "json",
+            success: function (data) {
+                if (data.code === 20000) {
+                    UIkit.notification({message: data.msg, status: 'success'})
+                    window.location.href = "/admin/navbar"
+                } else {
+                    UIkit.notification({message: data.msg + data.data, status: 'danger'})
+                }
+
+            }
+        });
+    })
+</script>

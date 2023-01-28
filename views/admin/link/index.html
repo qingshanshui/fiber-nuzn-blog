@@ -1,0 +1,51 @@
+<div class="uk-card uk-card-default uk-card-body">
+    <h1>友链管理</h1>
+    <a href="/admin/link/add" style="margin-bottom: 10px;display: inline-block;">
+        <button class="uk-button uk-button-default">添加友链</button>
+    </a>
+    <div class="uk-overflow-auto">
+        <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
+            <thead>
+            <tr>
+                <th class="uk-table-expand">排序</th>
+                <th class="uk-table-expand">名称</th>
+                <th class="uk-table-expand">链接</th>
+                <th class="uk-table-expand">是否可见</th>
+                <th class="uk-table-expand">描述</th>
+                <th class="uk-table-expand">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{range $index,$elem := .linkAll}}
+            <tr>
+                <td>{{$elem.Sort}}</td>
+                <td>{{$elem.Title}}</td>
+                <td>{{$elem.Url}}</td>
+                <td>
+                    {{if eq 2 $elem.Show}}
+                    <button class="uk-button uk-button-primary" disabled>显示</button>
+                    {{else}}
+                    <button class="uk-button uk-button-secondary" disabled>隐藏</button>
+                    {{end}}
+                </td>
+                <td class="hide2">{{$elem.Describe}}</td>
+                <td>
+                    <input type="hidden" value="{{$elem.Uid}}">
+                    <button class="uk-button uk-button-primary link_edit">编辑</button>
+                    <a href="#link-delete" uk-toggle class="uk-button uk-button-danger link_del">删除</a>
+                </td>
+            </tr>
+            {{end}}
+            </tbody>
+        </table>
+    </div>
+    <div id="link-delete" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+            <p>确定删除吗?</p><span></span>
+            <p class="uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">取消</button>
+                <button class="uk-button uk-button-primary link-del-save" type="button">确定</button>
+            </p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+<div class="uk-card uk-card-default uk-card-body">
+    <h1>编辑导航栏</h1>
+    <form class="uk-form-horizontal uk-margin-large">
+        <input type="hidden" value="{{.Result.Uid}}" name="id">
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-horizontal-title">导航栏名称</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" value="{{.Result.Title}}" name="title" type="text" id="form-horizontal-title"
+                       placeholder="导航栏名称">
+            </div>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-horizontal-url">url</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" value="{{.Result.Url}}" name="url" type="text" id="form-horizontal-url" placeholder="url">
+            </div>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-horizontal-sort">排序</label>
+            <div class="uk-form-controls">
+                <input value="{{.Result.Sort}}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" class="uk-input" name="sort" type="text" id="form-horizontal-sort" placeholder="排序">
+            </div>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-horizontal-show">显示/隐藏</label>
+            <div class="uk-form-controls">
+                <select class="uk-select" id="form-horizontal-show">
+                    {{if eq 2 .Result.Show}}
+                    <option selected value="2">显示</option>
+                    <option value="1">隐藏</option>
+                    {{else}}
+                    <option value="2">显示</option>
+                    <option selected value="1">隐藏</option>
+                    {{end}}
+                </select>
+            </div>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-horizontal-describe">描述</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" value="{{.Result.Describe}}" name="describe" type="text" id="form-horizontal-describe"
+                       placeholder="描述">
+            </div>
+        </div>
+        <div class="uk-margin">
+            <button class="uk-button uk-button-primary" id="navBar_edit">保存</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,261 @@
+.w {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background: #e4e4e4;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color:#9466ff;
+    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent);
+}
+
+:root {
+    --bg-color: #f2f2f2; /*主体背景颜色*/
+    --bg-main-color: #ffffff; /*主体颜色*/
+    --border-color-light: #f1f2f3;
+    --color-primary-lighter: #ecf5ff;
+    --color-success-lighter: #f0f9eb;
+    --color-warning-lighter: #fdf6ec;
+    --color-danger-lighter: #fef0f0;
+    --color-dark-hover: #0000001a;
+    --color-menu-hover: rgba(0, 0, 0, 0.2);
+    --color-user-hover: rgba(0, 0, 0, 0.04);
+    --color-seting-main: #e9eef3;
+    --color-seting-aside: #d3dce6;
+    --color-seting-header: #b3c0d1;
+    --scrollbar-thumb: rgba(0, 0, 0, 0.3)
+}
+
+/*水平居中*/
+.fcc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/*上下居中  靠两边*/
+.fsc {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+a {
+    text-decoration: none;
+    color: #666666;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #9466ff;
+}
+
+
+html {
+    background-color: var(--bg-color);
+    min-width: 320px;
+}
+
+li {
+    list-style: none;
+}
+
+/*超出隐藏*/
+.hide {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    white-space: normal !important;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+.hide2 {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    white-space: normal !important;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.hide4 {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    white-space: normal !important;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+
+/* ---------------------------------侧变栏--------------------------------- */
+
+/*容器*/
+.sidebar-container {
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+/*容器标题*/
+.sidebar-container-title {
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 5px;
+}
+
+.sidebar-container-title p {
+    display: inline-block;
+    position: relative;
+    margin: 0;
+}
+
+.sidebar-container-title > p:after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #9466ff;
+}
+
+.sidebar-container-content {
+    padding: 10px;
+}
+
+/*.container*****************************************.container**********************/
+.container {
+    display: flex;
+    overflow: hidden;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.container-content {
+    flex: 1;
+    /*overflow-x: auto;*/
+}
+
+.container-sidebar {
+    width: 300px;
+    margin-left: 20px;
+}
+/*导航栏的*/
+.nav_header {
+    background-color: #ffffff;
+
+}
+
+.nav_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav > a {
+    padding: 0 15px;
+    text-decoration: none;
+    color: #666666;
+    font-size: 18px;
+}
+
+.nav > a:hover {
+    color: #9466ff;
+}
+
+.nav_logo {
+    max-height: 50px;
+    margin: 15px;
+}
+
+.nav_logo img {
+    height: 32px;
+}
+
+
+/*footer 底部*************************************************************************************************************************/
+
+.footer {
+    /*max-width: 1200px;*/
+    /*height: 200px;*/
+    font-size: 12px;
+    padding: 30px;
+    margin: 0 auto;
+    background-color: #2d3237;
+    color: #ffffff;
+}
+
+.footer .copyright .footer-menu ul li a {
+    color: #666;
+}
+
+.footer .copyright .footer-menu ul li {
+    padding: 0 20px;
+    list-style-type: none;
+}
+
+.footer .copyright .footer-menu ul {
+    display: flex;
+    /*padding: 20px;*/
+    padding-top: 30px;
+    flex-wrap: wrap;
+}
+
+.footer .copyright {
+    color: #666;
+}
+
+.footer .link-wrap ul li a {
+    color: #9295a2;
+}
+
+.footer .link-wrap ul li {
+    padding: 0 20px;
+    list-style-type: none;
+    font-size: 16px;
+}
+
+.footer .link-wrap ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.footer .link-wrap {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #3b424a;
+}
+
+
+
+/*侧边栏*/
+.total_content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.total_content-item {
+    padding: 0;
+    margin: 0;
+    width: 50%;
+}
+
+/*在小于480 像素的屏幕，微小屏幕，更低分辨率的手机*/
+@media (max-width: 940px) {
+    .footer {
+        padding: 10px;
+    }
+    .container{
+        margin: 0;
+    }
+}

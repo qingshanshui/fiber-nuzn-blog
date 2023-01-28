@@ -1,0 +1,83 @@
+<script>
+    $('.link_edit').click(function () {
+        location.href = "/admin/link/edit?id=" + $(this).parent().find('input').val()
+    })
+    // 确定删除
+    $('.link_del').click(function () {
+        $('#link-delete').find("span").html($(this).parent().find('input').val())
+    })
+    $('.link-del-save').click(function () {
+        $.ajax({
+            type: "POST",
+            url: "/admin/link/del",
+            data: {
+                id: $(this).parent().parent().find("span").text()
+            },
+            dataType: "json",
+            success: function (data) {
+                window.location.href = "/admin/link"
+            }
+        });
+    })
+</script>
+
+<script>
+
+    $('#navBar_add').click(function (e) {
+        e.preventDefault()
+        let parents = $(this).parent().siblings()
+        let obj = {}
+        obj.title = parents.find("#form-horizontal-title").val()
+        obj.url = parents.find("#form-horizontal-url").val()
+        obj.sort = parents.find("#form-horizontal-sort").val()
+        obj.show = parents.find("#form-horizontal-show").val()
+        obj.describe = parents.find("#form-horizontal-describe").val()
+        if (!obj.title) return  UIkit.notification({message: "导航栏标题不能为空", status: 'warning'})
+        $.ajax({
+            type: "POST",
+            url: "/admin/link/add",
+            data: obj,
+            dataType: "json",
+            success: function (data) {
+                if (data.code === 20000) {
+                    UIkit.notification({message: data.msg, status: 'success'})
+                    window.location.href = "/admin/link"
+                } else {
+                    UIkit.notification({message: data.msg + data.data, status: 'danger'})
+                }
+
+            }
+        });
+    })
+</script>
+
+<script>
+
+    $('#navBar_edit').click(function (e) {
+        e.preventDefault()
+        let parents = $(this).parent().siblings()
+        let obj = {}
+        obj.title = parents.find("#form-horizontal-title").val()
+        obj.url = parents.find("#form-horizontal-url").val()
+        obj.sort = parents.find("#form-horizontal-sort").val()
+        obj.show = parents.find("#form-horizontal-show").val()
+        obj.describe = parents.find("#form-horizontal-describe").val()
+        obj.id = $("input[name='id']").val()
+        if (!obj.title) UIkit.notification({message: "导航栏标题不能为空", status: 'warning'})
+        $.ajax({
+            type: "POST",
+            url: "/admin/link/edit",
+            data: obj,
+            dataType: "json",
+            success: function (data) {
+                if (data.code === 20000) {
+                    UIkit.notification({message: data.msg, status: 'success'})
+                    window.location.href = "/admin/link"
+                } else {
+                    UIkit.notification({message: data.msg + data.data, status: 'danger'})
+                }
+
+            }
+        });
+    })
+</script>
