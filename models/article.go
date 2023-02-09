@@ -19,7 +19,7 @@ type Article struct {
 
 // TableName 自定义表名
 func (u *Article) TableName() string {
-	return "nuzn_article"
+	return "blog_article"
 }
 
 // NewArticle new一个空的结构体

@@ -13,7 +13,7 @@ type Link struct {
 
 // TableName 重命名表
 func (u *Link) TableName() string {
-	return "nuzn_Link"
+	return "blog_Link"
 }
 
 // NewLink new一个空的结构体

@@ -12,7 +12,7 @@ type NavBar struct {
 
 // TableName 重命名表
 func (u *NavBar) TableName() string {
-	return "nuzn_navBar"
+	return "blog_navBar"
 }
 
 // NewNavBar new一个空的结构体

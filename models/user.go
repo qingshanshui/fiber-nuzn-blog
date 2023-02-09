@@ -18,7 +18,7 @@ type User struct {
 
 // TableName 重命名表
 func (u *User) TableName() string {
-	return "nuzn_user"
+	return "blog_user"
 }
 
 // NewUser new一个空的结构体

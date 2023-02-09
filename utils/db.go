@@ -31,29 +31,23 @@ func init() {
 	//判断mysql 链接是否异常
 	if err != nil {
 		panic("mysql数据库链接失败")
-	} else {
-		fmt.Println("mysql数据库链接成功")
 	}
 	// 自动注册 模型
 	AutoErr := global.DB.AutoMigrate(&models.Article{}, &models.User{}, &models.NavBar{}, models.Link{})
 	if AutoErr != nil {
 		fmt.Println("mysql迁移表失败")
 	} else {
-		fmt.Println("迁移成功")
-
 		canonical, _ := nanoid.Standard(36)
-
 		// 迁移成功  向用户表插入一个用户，方便管理文章使用
 		var users = models.NewUser()
 		if users.GetUserListCount() == 0 {
 			uid := canonical()
 			global.DB.Create(&models.User{
 				Uid:      uid,
-				Username: "13122256420",
-				Password: "ly062823.=",
+				Username: "admin",
+				Password: "123456",
 			})
 		}
-
 		var article = models.NewArticle()
 		if article.GetArticleListCount() == 0 {
 			uid := canonical()
