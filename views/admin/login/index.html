@@ -1,83 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>登录页面</title>
-    <!-- UIkit CSS -->
-    <link rel="stylesheet" href="/static/css/uikit.min.css"/>
-    <!--    全局css-->
-    <link rel="stylesheet" href="/static/css/global.css">
-
+    <!-- ZUI 标准版压缩后的 CSS 文件 -->
+    <link rel="stylesheet" href="//cdn.bootcdn.net/ajax/libs/zui/1.10.0/css/zui.min.css">
+     <!-- UIkit CSS -->
+     <link rel="stylesheet" href="/static/css/uikit.min.css"/>
 </head>
+
 <body>
-<style>
-    .login {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
 
-    /*在小于960 像素的屏幕，微小屏幕，更低分辨率的手机*/
-    @media (max-width: 960px) {
         .login {
-            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            background-color: #f7f8fa;
         }
 
-        .login-form {
+        .container {
+            width: 100%;
+            background-color: var(--bag)
+        }
+
+        .login-content {
+            background-color: #fff;
             padding: 20px;
+            border-radius: 5px;
+            max-width: 390px;
+            width: 100%;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px -5px rgb(0 0 0 / 30%);
+        }
+
+        .login-content>div {
+            padding: 8px;
             width: 100%;
         }
 
-        .uk-input.uk-form-width-large {
-            width: 100%;
+        .login-content-logo {
+            text-align: center;
         }
-    }
-</style>
-<div class="w fcc login">
-    <form class="login-form">
-        <div class="uk-margin">
-            <input class="uk-input uk-form-width-large " id="username" type="text" name="username" placeholder="账号">
-        </div>
-        <div class="uk-margin">
-            <input class="uk-input uk-form-width-large " id="password" type="password" name="password"
-                   placeholder="密码">
-        </div>
-        <div class="uk-margin">
-            <a class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">登录</a>
-        </div>
-    </form>
-</div>
 
-<!-- UIkit JS -->
-<script src="/static/js/uikit.min.js"></script>
-<script src="/static/js/jquery-3.6.0.min.js"></script>
-<script type="text/javascript">
-
-    $('.uk-margin-small-bottom').click(function () {
-        var data = {
-            username: document.querySelector('#username').value,
-            password: document.querySelector('#password').value
+        .login-content-logo img {
+            width: 150px;
         }
-        // 发生post请求
-        $.ajax({
-            type: "POST",
-            url: "/admin/login",
-            data: data,
-            dataType: "json",
-            success: function (data) {
-                document.cookie = "token=" + data.token + ";path=/"
-                if (data.token) {
-                    location.href = "/admin/home"
-                } else {
-                    UIkit.notification({message: data.data, status: 'warning'})
-                }
+    </style>
+    <div class="login w">
+        <div class="container">
+            <div class="login-content">
+                <div class="login-content-logo ">
+                    <img src="https://blog.dbsgw.com/logo.png" alt="前端笔记">
+                </div>
+                <div class="login-content-user">
+                    <div class="input-control has-icon-left">
+                        <input id="inputAccountExampleUser" type="text" class="form-control" placeholder="用户名" value="">
+                        <label for="inputAccountExampleUser" class="input-control-icon-left"><i
+                                class="icon icon-user "></i></label>
+                    </div>
+                </div>
+                <div class="login-content-pass">
+                    <div class="input-control has-icon-left">
+                        <input id="inputPasswordExamplePass" type="password" class="form-control" placeholder="密码"
+                            value="">
+                        <label for="inputPasswordExamplePass" class="input-control-icon-left"><i
+                                class="icon icon-key"></i></label>
+                    </div>
+                </div>
+                <div class="login-content-submit">
+                    <button class="btn btn-block btn-primary" type="button">登录</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <!-- ZUI Javascript 依赖 jQuery -->
+  <script src="//cdn.bootcdn.net/ajax/libs/zui/1.10.0/lib/jquery/jquery.js"></script>
+  <script src="/static/js/uikit.min.js"></script>
+  <!-- <script src="/static/js/jquery-3.6.0.min.js"></script> -->
+  <!-- ZUI 标准版压缩后的 JavaScript 文件 -->
+  <script src="//cdn.bootcdn.net/ajax/libs/zui/1.10.0/js/zui.min.js"></script>
+
+    <script type="text/javascript">
+        let btn = document.querySelector(".login-content .login-content-submit .btn")
+        btn.addEventListener("click", () => {
+            let user = document.querySelector("#inputAccountExampleUser")
+            let pass = document.querySelector("#inputPasswordExamplePass")
+            console.log(user.value, pass.value, "=====")
+            var data = {
+                username: user.value,
+                password: pass.value,
             }
-        });
-    })
-</script>
+            // 发生post请求
+            $.ajax({
+                type: "POST",
+                url: "/admin/login",
+                data: data,
+                dataType: "json",
+                success: function (data) {
+                    document.cookie = "token=" + data.token + ";path=/"
+                    if (data.token) {
+                        location.href = "/admin/home"
+                    } else {
+                        UIkit.notification({ message: data.data, status: 'warning' })
+                    }
+                }
+            });
+
+        })
+    </script>
 </body>
+
 </html>
