@@ -4,7 +4,7 @@
         <div class="uk-width-2-3@m">
             <input type="hidden" value="{{.Result.Uid}}" id="id">
             <input class="uk-input " type="text" name="username" placeholder="文章标题" id="title"
-                   value="{{.Result.Title}}">
+                value="{{.Result.Title}}">
             <div id="editor—wrapper" style="margin-top: 10px">
                 <div id="toolbar-container"><!-- 工具栏 --></div>
                 <div id="editor-container"><!-- 编辑器 --></div>
@@ -29,16 +29,14 @@
             <div class="uk-form-stacked" style="text-align: left">
                 <label class="uk-form-label" for="form-stacked-tag">选择标签</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input " id="form-stacked-tag" type="text" name="username"
-                           placeholder="标签">
+                    <input class="uk-input " id="form-stacked-tag" type="text" name="username" placeholder="标签">
                 </div>
             </div>
             <div class="uk-form-stacked" style="text-align: left">
                 <label class="uk-form-label" for="form-stacked-sort">排序</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input " id="form-stacked-sort" type="text" name="username"
-                           value="{{.Result.Sort}}"
-                           placeholder="标签">
+                    <input class="uk-input " id="form-stacked-sort" type="text" name="username" value="{{.Result.Sort}}"
+                        placeholder="标签">
                 </div>
             </div>
             <div class="uk-form-stacked" style="text-align: left">
@@ -56,13 +54,13 @@
                 </div>
             </div>
             <div class="uk-form-stacked" style="text-align: left">
-                <button class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom"
-                        style="margin-top: 10px" id="edit-btn">编辑文章
+                <button class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom" style="margin-top: 10px"
+                    id="edit-btn">编辑文章
                 </button>
             </div>
         </div>
     </div>
-    <div/>
+    <div />
 
 
 </div>
@@ -70,7 +68,7 @@
 <script type="text/javascript" src="/static/js/admin/wangEditor.5.1.js"></script>
 
 <script>
-    const {createEditor, createToolbar} = window.wangEditor
+    const { createEditor, createToolbar } = window.wangEditor
 
     const editorConfig = {
         placeholder: 'Type here...',
@@ -82,7 +80,7 @@
 
     const editor = createEditor({
         selector: '#editor-container',
-        html: {{.Result.ContentHtml}},
+        html: {{.Result.ContentHtml }},
     config: editorConfig,
         mode: 'default', // or 'simple'
     })
@@ -106,7 +104,7 @@
             id: $('#id').val(),
             sort: parents.find("#form-stacked-sort").val(),    // 排序
             title: $('#title').val(),    // 标题
-            content: editor.getText().substring(0,100),    // 内容
+            content: editor.getText().substring(0, 100),    // 内容
             contentHtml: editor.getHtml(),    // html内容
             pic: "",    // 主图
             show: parents.find("#form-stacked-show").val(),// 是否显示，1为否，2为是

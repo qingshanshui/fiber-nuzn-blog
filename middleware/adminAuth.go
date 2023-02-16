@@ -2,9 +2,10 @@ package middleware
 
 import (
 	"beego_blog_mvc/utils"
+	"net/url"
+
 	beego "github.com/beego/beego/v2/server/web"
 	context2 "github.com/beego/beego/v2/server/web/context"
-	"net/url"
 )
 
 func AdminAuth(ctx *context2.Context) {
@@ -21,7 +22,7 @@ func AdminAuth(ctx *context2.Context) {
 			ctx.SetCookie("token", "", -1)
 			ctx.Redirect(302, "/admin/login")
 		}
-	}else {
+	} else {
 		// 获取token 入股token 解密失败就 清除token跳转到登录页
 		cookie := ctx.Input.Cookie("token")
 		if cookie != "" {
@@ -30,7 +31,7 @@ func AdminAuth(ctx *context2.Context) {
 			if err != nil {
 				ctx.SetCookie("token", "", -1)
 				ctx.Redirect(302, "/admin/login")
-			}else {
+			} else {
 				ctx.Redirect(302, "/admin/home")
 			}
 		}

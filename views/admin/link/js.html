@@ -32,7 +32,7 @@
         obj.sort = parents.find("#form-horizontal-sort").val()
         obj.show = parents.find("#form-horizontal-show").val()
         obj.describe = parents.find("#form-horizontal-describe").val()
-        if (!obj.title) return  UIkit.notification({message: "导航栏标题不能为空", status: 'warning'})
+        if (!obj.title) return UIkit.notification({ message: "导航栏标题不能为空", status: 'warning' })
         $.ajax({
             type: "POST",
             url: "/admin/link/add",
@@ -40,10 +40,10 @@
             dataType: "json",
             success: function (data) {
                 if (data.code === 20000) {
-                    UIkit.notification({message: data.msg, status: 'success'})
+                    UIkit.notification({ message: data.msg, status: 'success' })
                     window.location.href = "/admin/link"
                 } else {
-                    UIkit.notification({message: data.msg + data.data, status: 'danger'})
+                    UIkit.notification({ message: data.msg + data.data, status: 'danger' })
                 }
 
             }
@@ -63,7 +63,7 @@
         obj.show = parents.find("#form-horizontal-show").val()
         obj.describe = parents.find("#form-horizontal-describe").val()
         obj.id = $("input[name='id']").val()
-        if (!obj.title) UIkit.notification({message: "导航栏标题不能为空", status: 'warning'})
+        if (!obj.title) UIkit.notification({ message: "导航栏标题不能为空", status: 'warning' })
         $.ajax({
             type: "POST",
             url: "/admin/link/edit",
@@ -71,10 +71,10 @@
             dataType: "json",
             success: function (data) {
                 if (data.code === 20000) {
-                    UIkit.notification({message: data.msg, status: 'success'})
+                    UIkit.notification({ message: data.msg, status: 'success' })
                     window.location.href = "/admin/link"
                 } else {
-                    UIkit.notification({message: data.msg + data.data, status: 'danger'})
+                    UIkit.notification({ message: data.msg + data.data, status: 'danger' })
                 }
 
             }

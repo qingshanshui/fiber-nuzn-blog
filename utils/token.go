@@ -2,8 +2,9 @@ package utils
 
 import (
 	"beego_blog_mvc/models"
-	"github.com/dgrijalva/jwt-go"
 	"time"
+
+	"github.com/dgrijalva/jwt-go"
 )
 
 // CreateToken 设置token

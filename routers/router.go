@@ -7,9 +7,10 @@ import (
 	LoginController "beego_blog_mvc/controllers/admin/login"
 	adminSort "beego_blog_mvc/controllers/admin/navBar"
 	"beego_blog_mvc/controllers/web"
-	"beego_blog_mvc/controllers/web/category"
-	"beego_blog_mvc/controllers/web/sort"
+	CategoryController "beego_blog_mvc/controllers/web/category"
+	SortController "beego_blog_mvc/controllers/web/sort"
 	"beego_blog_mvc/middleware"
+
 	beego "github.com/beego/beego/v2/server/web"
 )
 
@@ -45,7 +46,6 @@ func init() {
 			beego.NSRouter("/edit", &ArticleController.ArticleController{}, "post:EditPost"),
 			beego.NSRouter("/del", &ArticleController.ArticleController{}, "post:Del"),
 			beego.NSRouter("/baidu", &ArticleController.ArticleController{}, "post:Baidu"),
-
 		),
 
 		// 导航栏

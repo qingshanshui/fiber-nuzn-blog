@@ -4,6 +4,7 @@ import (
 	"beego_blog_mvc/global"
 	"beego_blog_mvc/models"
 	"fmt"
+
 	beego "github.com/beego/beego/v2/server/web"
 	"github.com/jaevor/go-nanoid"
 	"gorm.io/driver/mysql"

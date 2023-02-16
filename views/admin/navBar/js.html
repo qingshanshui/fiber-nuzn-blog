@@ -30,7 +30,7 @@
     obj.url = parents.find("#form-horizontal-url").val()
     obj.sort = parents.find("#form-horizontal-sort").val()
     obj.show = parents.find("#form-horizontal-show").val()
-    if (!obj.title) return  UIkit.notification({message: "导航栏标题不能为空", status: 'warning'})
+    if (!obj.title) return UIkit.notification({ message: "导航栏标题不能为空", status: 'warning' })
     $.ajax({
       type: "POST",
       url: "/admin/navbar/add",
@@ -38,10 +38,10 @@
       dataType: "json",
       success: function (data) {
         if (data.code === 20000) {
-          UIkit.notification({message: data.msg, status: 'success'})
+          UIkit.notification({ message: data.msg, status: 'success' })
           window.location.href = "/admin/navbar"
         } else {
-          UIkit.notification({message: data.msg + data.data, status: 'danger'})
+          UIkit.notification({ message: data.msg + data.data, status: 'danger' })
         }
 
       }
@@ -49,30 +49,30 @@
   })
 </script>
 <script>
-    $('#navBar_edit').click(function (e) {
-        e.preventDefault()
-        let parents = $(this).parent().siblings()
-        let obj = {}
-        obj.title = parents.find("#form-horizontal-title").val()
-        obj.url = parents.find("#form-horizontal-url").val()
-        obj.sort = parents.find("#form-horizontal-sort").val()
-        obj.show = parents.find("#form-horizontal-show").val()
-        obj.id = $("input[name='id']").val()
-        if (!obj.title) UIkit.notification({message: "导航栏标题不能为空", status: 'warning'})
-        $.ajax({
-            type: "POST",
-            url: "/admin/navbar/edit",
-            data: obj,
-            dataType: "json",
-            success: function (data) {
-                if (data.code === 20000) {
-                    UIkit.notification({message: data.msg, status: 'success'})
-                    window.location.href = "/admin/navbar"
-                } else {
-                    UIkit.notification({message: data.msg + data.data, status: 'danger'})
-                }
+  $('#navBar_edit').click(function (e) {
+    e.preventDefault()
+    let parents = $(this).parent().siblings()
+    let obj = {}
+    obj.title = parents.find("#form-horizontal-title").val()
+    obj.url = parents.find("#form-horizontal-url").val()
+    obj.sort = parents.find("#form-horizontal-sort").val()
+    obj.show = parents.find("#form-horizontal-show").val()
+    obj.id = $("input[name='id']").val()
+    if (!obj.title) UIkit.notification({ message: "导航栏标题不能为空", status: 'warning' })
+    $.ajax({
+      type: "POST",
+      url: "/admin/navbar/edit",
+      data: obj,
+      dataType: "json",
+      success: function (data) {
+        if (data.code === 20000) {
+          UIkit.notification({ message: data.msg, status: 'success' })
+          window.location.href = "/admin/navbar"
+        } else {
+          UIkit.notification({ message: data.msg + data.data, status: 'danger' })
+        }
 
-            }
-        });
-    })
+      }
+    });
+  })
 </script>

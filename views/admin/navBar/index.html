@@ -5,32 +5,32 @@
     </a>
     <table class="uk-table uk-table-divider">
         <thead>
-        <tr>
-            <th class="uk-table-expand">名称</th>
-            <th class="uk-table-expand">排序</th>
-            <th class="uk-table-expand">是否可见</th>
-            <th class="uk-table-expand">操作</th>
-        </tr>
+            <tr>
+                <th class="uk-table-expand">名称</th>
+                <th class="uk-table-expand">排序</th>
+                <th class="uk-table-expand">是否可见</th>
+                <th class="uk-table-expand">操作</th>
+            </tr>
         </thead>
         <tbody>
-        {{range $index,$elem := .navBarAll}}
-        <tr>
-            <td>{{$elem.Title}}</td>
-            <td>{{$elem.Sort}}</td>
-            <td>
-                {{if eq 2 $elem.Show}}
-                <button class="uk-button uk-button-primary" disabled>显示</button>
-                {{else}}
-                <button class="uk-button uk-button-secondary" disabled>隐藏</button>
-                {{end}}
-            </td>
-            <td>
-                <input type="hidden" value="{{$elem.Uid}}">
-                <button class="uk-button uk-button-primary navBar_edit">编辑</button>
-                <a href="#navBar-delete" uk-toggle class="uk-button uk-button-danger navBar_del">删除</a>
-            </td>
-        </tr>
-        {{end}}
+            {{range $index,$elem := .navBarAll}}
+            <tr>
+                <td>{{$elem.Title}}</td>
+                <td>{{$elem.Sort}}</td>
+                <td>
+                    {{if eq 2 $elem.Show}}
+                    <button class="uk-button uk-button-primary" disabled>显示</button>
+                    {{else}}
+                    <button class="uk-button uk-button-secondary" disabled>隐藏</button>
+                    {{end}}
+                </td>
+                <td>
+                    <input type="hidden" value="{{$elem.Uid}}">
+                    <button class="uk-button uk-button-primary navBar_edit">编辑</button>
+                    <a href="#navBar-delete" uk-toggle class="uk-button uk-button-danger navBar_del">删除</a>
+                </td>
+            </tr>
+            {{end}}
         </tbody>
     </table>
 </div>

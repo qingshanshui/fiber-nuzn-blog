@@ -2,6 +2,7 @@ package models
 
 import (
 	"beego_blog_mvc/global"
+
 	"gorm.io/gorm"
 )
 
