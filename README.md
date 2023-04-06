@@ -1,50 +1,119 @@
-#  beego_blog_mvc
+config
+> 本项目使用 go-fiber 框架为核心搭建的一个mvc模式的脚手架，可以基于本项目快速完成业务开发，开箱📦 即用
 
-#### 介绍
-beego开发的一个mvc的个人博客，博客自带前台和后台管理系统 持续开发中
+### 运行
 
-#### 软件架构
-软件架构说明  beego  mvc 开发
+拉取代码后在项目根目录执行如下命令：
 
-博客前台暂停 响应式两屏   m屏 960px以上为一屏  960px以下为一屏幕
+```shell
+# 建议开启GO111MODULE
+go env -w GO111MODULE=on
 
+# 下载依赖
+go mod download
 
-#### 安装教程
+# 运行项目
+go run main.go #默认启动开发环境
+go run main.go -mode dev #开发环境
+go run main.go -mode prod #生产环境
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+# 项目起来后执行下面命令访问示例路由
+curl "http://127.0.0.1:3000/v1/register?username=admin&password=132456"
+# {"code": 1000,"data": "✋ ---- admin","msg": "操作成功"}
+```
 
-bee线上运营
-1. 打包 `bee pack -be GOOS=linux`
-2. 服务器上运行程序 `nohup ./app`
-3. 如果服务器上已经运行程序，需要先停止 
-   
-    查看程序pid `ps -ef | grep app`
-    
-    停止程序 `kill -9 pid`
+### 部署
 
-#### 存在bug
-1. 热门推荐哪里  无法左文字超出隐藏
-#### 使用说明
+```shell
+# bee打包项目（个人喜欢 bee 部署，其他方式自行百度）
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+# 安装 bee工具（beego框架带的打包工具）
+go get -u github.com/beego/bee/v2
 
-#### 参与贡献
+# 运行时请配置指定config文件的位置，否则可能会出现找不到配置的情况，修改完配置请重启
+bee pack -be GOOS=linux
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+# 服务器 nohup工具 跑起来 (在直接放到 服务器跑就行啦)
+nohup ./fiber-layout-mvc
+```
 
+### 目录结构
 
-#### 特技
+```
+.
+|——.gitignore
+|——go.mod
+|——go.sum
+|——main.go    // 项目入口 main 包
+|——LICENSE
+|——README.md
+|——boot    // 项目初始化目录
+|  └──boot.go
+|——config    // 这里通常维护一些本地调试用的样例配置文件
+|  └──autoload    // 配置文件的结构体定义包
+|     └──app.go
+|     └──logger.go
+|     └──mysql.go
+|     └──redis.go
+|     └──server.go
+|  └──config.example.ini    // .ini 配置示例文件
+|  └──config.example.yaml    // .yaml 配置示例文件
+|  └──config.go    // 配置初始化文件
+|——data    // 数据初始化目录
+|  └──data.go
+|  └──mysql.go
+|  └──redis.go
+|——internal    // 该服务所有不对外暴露的代码，通常的业务逻辑都在这下面，使用internal避免错误引用
+|  └──controller    // 控制器代码
+|     └──v1
+|        └──auth.go    // 完整流程演示代码，包含数据库表的操作
+|        └──helloword.go    // 基础演示代码
+|     └──base.go
+|  └──middleware    // 中间件目录
+|     └──cors.go
+|     └──logger.go
+|     └──recovery.go
+|     └──requestCost.go
+|  └──model    // 业务数据访问
+|     └──admin_users.go
+|     └──base.go
+|  └──pkg    // 内部使用包
+|     └──errors    // 错误定义
+|        └──code.go
+|        └──en-us.go
+|        └──zh-cn.go
+|     └──logger    // 日志处理
+|        └──logger.go
+|     └──response    // 统一响应输出
+|        └──response.go
+|  └──routers    // 路由定义
+|     └──apiRouter.go
+|     └──router.go
+|  └──service    // 业务逻辑
+|     └──auth.go
+|  └──validator    // 请求参数验证器
+|     └──form    // 表单参数定义
+|        └──auth.go
+|     └──validator.go
+|——pkg    // 可以被外部使用的包
+|  └──convert    // 数据类型转换
+|     └──convert.go
+|  └──utils    // 帮助函数
+|     └──utils.go
+```
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+### 其他说明
+
+##### 项目中使用到的包
+
+- 核心：[fiber](https://github.com/gofiber/fiber)
+- 配置：[gopkg.in/yaml.v3](https://github.com/go-yaml/yaml)
+- 参数验证：[github.com/go-playground/validator/v10](https://github.com/go-playground/validator)
+  -日志：[go.uber.org/zap](https://github.com/uber-go/zap)、[github.com/natefinch/lumberjack](http://github.com/natefinch/lumberjack)、[github.com/lestrrat-go/file-rotatelogs](https://github.com/lestrrat-go/file-rotatelogs)
+- 数据库：[gorm.io/gorm](https://github.com/go-gorm/gorm)、[go-redis/v8](https://github.com/go-redis/redis)
+- 模板引擎：`template`
+- 还有其他不一一列举，更多请查看`go.mod`文件
+
+### 代码贡献
+
+不完善的地方，欢迎大家 Fork 并提交 PR！

@@ -1,8 +1,4 @@
+/.idea/.gitignore
 /.idea
-/*.exe~
-/beego_blog_mvc.exe
-/*.gz
 /tmp
-/lastupdate.tmp
-/.fleet
-main
+/logs

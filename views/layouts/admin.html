@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>fiber-layout-mvc</title>
+    <link rel="icon" type="image/svg+xml" href="https://pan.nuzn.cn/v1/download?path=/image/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- ZUI 标准版压缩后的 CSS 文件 -->
+    <link rel="stylesheet" href="https://pan.nuzn.cn/v1/download?path=/zui/1.10.0/css/zui.min.css">
+</head>
+
+<style>
+    @media (min-width: 768px) {
+        .admin .admin-main-sidebar {
+            height: 100% !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .admin .admin-main {
+            display: block;
+        }
+
+        .admin .admin-main-sidebar {
+            width: 100%;
+            height: 0;
+            padding: 0;
+        }
+    }
+
+    html,
+    body,
+    .container-fluid {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        background-color: #f2f2f2;
+        min-width: 375px;
+    }
+
+    .admin {
+        height: 100%;
+    }
+
+    .admin-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #fff;
+        padding: 10px;
+    }
+
+    .admin-head-logo {
+        width: 120px;
+    }
+
+    .admin-main {
+        display: flex;
+        height: calc(100% - 57.33px);
+    }
+
+    .admin-main-sidebar {
+        width: 250px;
+        padding: 10px;
+        background-color: #fff;
+        overflow: hidden;
+    }
+
+    .admin-main-sidebar li {
+        width: 100%;
+    }
+
+    .admin-main-sidebar li>a {
+        /* border-right: none;
+        border-left: none;
+        border-top: none;
+        border-radius: 0 !important; */
+    }
+
+    .admin-main-content {
+        padding: 10px;
+        flex: 1;
+    }
+</style>
+
+<body>
+    <div class="container-fluid">
+        <div class="admin">
+            <div class="admin-head">
+                <div class="admin-head-logo">
+                    <a href="/admin">
+                        <img src="https://pan.nuzn.cn/v1/download?path=/image/logo.png" alt="logo">
+                    </a>
+                </div>
+                <div class="admin-head-operation">
+                    <ul class="nav nav-primary">
+                        <li class="visible-xs admin-head-operation-close"><a href="#"> <i
+                                    class="icon icon-tasks "></i></a></li>
+                        <li><a href="#"><i class="icon icon-spin icon-cog"></i> </a></li>
+                        <li><a href="#"><i class="icon icon-off"></i> </a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="admin-main">
+                <div class="admin-main-sidebar">
+                    <nav class="menu" data-ride="menu">
+                        <ul class="nav nav-primary">
+                            <li><a href="javascript:;"><i class="icon icon-th"></i> 首页</a></li>
+                            <li class="active"><a href="javascript:;"><i class="icon icon-user"></i> 发文章</a></li>
+                            <li><a href="javascript:;"><i class="icon icon-trash"></i> 文章列表</a></li>
+                            <li><a href="javascript:;"><i class="icon icon-list-ul"></i> 大小姐</a></li>
+                            <li><a href="javascript:;"><i class="icon icon-list-ul"></i> 大小姐</a></li>
+                            <li><a href="javascript:;"><i class="icon icon-list-ul"></i> 大小姐</a></li>
+                            <li><a href="javascript:;"><i class="icon icon-list-ul"></i> 大小姐</a></li>
+                            <li><a href="javascript:;"><i class="icon icon-list-ul"></i> 大小姐</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="admin-main-content">
+                    {{embed}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ZUI Javascript 依赖 jQuery -->
+    <script src="https://pan.nuzn.cn/v1/download?path=/jquery/3.63/jquery-3.6.3.min.js"></script>
+    <!-- ZUI 标准版压缩后的 JavaScript 文件 -->
+    <script src="https://pan.nuzn.cn/v1/download?path=/zui/1.10.0/js/zui.min.js"></script>
+    <script>
+        document.querySelector('.admin-head-operation-close').addEventListener('click', () => {
+            let showDom = document.querySelector('.admin-main-sidebar') // 隐藏/显示 dom
+            let heights = document.querySelector('.admin .admin-main-sidebar>nav') // 获取 高度的dom
+            if (showDom.offsetHeight) {
+                showDom.style.height = "0px"
+            } else {
+                showDom.style.transition = "all .3s"
+                showDom.style.height = `${heights.offsetHeight}px`
+            }
+        })
+    </script>
+</body>
+
+</html>

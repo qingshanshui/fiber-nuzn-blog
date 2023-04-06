@@ -1,24 +1,30 @@
 package main
 
 import (
-	_ "beego_blog_mvc/routers"
-	"beego_blog_mvc/utils"
-	beego "github.com/beego/beego/v2/server/web"
+	_ "fiber-layout-mvc/config"
+	_ "fiber-layout-mvc/initalize"
+	"fiber-layout-mvc/routers"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/template/html"
+	"github.com/spf13/viper"
 )
 
 func main() {
-	beego.AddFuncMap("index", Index)
-	beego.AddFuncMap("UnixToDate", UnixToDate)
-	beego.Run()
-}
-
-// UnixToDate 时间戳转日期
-func UnixToDate(unix int64) string {
-	return utils.UnixDate(unix)
-}
-
-// Index 首页自定义序号
-func Index(in int) (out int) {
-	out = in + 1
-	return out
+	app := fiber.New(fiber.Config{
+		// 采用html模板引擎
+		Views: html.New("./views", ".html"),
+	})
+	// 静态目录
+	app.Static("/", "./static")
+	// HTTP 请求/响应日志
+	app.Use(logger.New())
+	// Recover 中间件将可以堆栈链中的任何位置将 panic 恢复，并将处理集中到
+	app.Use(recover.New())
+	// 设置路由
+	routers.SetRoute(app)
+	// 监听端口
+	_ = app.Listen(viper.GetString("App.Port"))
 }
