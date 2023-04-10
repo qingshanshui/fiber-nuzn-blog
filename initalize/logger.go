@@ -1,20 +1,17 @@
 package initalize
 
 import (
-	"fmt"
-	"os"
-	"time"
-
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
+	"os"
+	"time"
 )
 
 var Log *zap.SugaredLogger
 
 func InitDatabaseLogger() {
-	fmt.Println("执行啦")
 	encoder := getEncoder()
 	sync := getLogWriter()
 	core := zapcore.NewCore(encoder, sync, zapcore.InfoLevel)
