@@ -1,10 +1,10 @@
 package main
 
 import (
-	_ "fiber-layout-mvc/config"
-	"fiber-layout-mvc/initalize"
-	"fiber-layout-mvc/models"
-	"fiber-layout-mvc/routers"
+	_ "fiber-nuzn-blog/config"
+	"fiber-nuzn-blog/initalize"
+	"fiber-nuzn-blog/models"
+	"fiber-nuzn-blog/routers"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
@@ -13,9 +13,10 @@ import (
 )
 
 func main() {
+	engine := html.New("./views", ".html")
 	app := fiber.New(fiber.Config{
 		// 采用html模板引擎
-		Views: html.New("./views", ".html"),
+		Views: engine,
 	})
 	// 静态目录
 	app.Static("/", "./static")
@@ -26,7 +27,7 @@ func main() {
 	// 设置路由
 	routers.SetRoute(app)
 	// 初始化 数据表
-	err := initalize.DB.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.Course{})
+	err := initalize.DB.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.Article{}, &models.NavBar{}, &models.User{}, &models.Link{})
 	if err != nil {
 		initalize.Log.Error("数据库表生成失败：", err)
 		panic("数据库表，生成失败")

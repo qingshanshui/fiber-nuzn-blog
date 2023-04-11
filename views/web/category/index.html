@@ -1,0 +1,15 @@
+{{template "web/category/css" .}}
+<div class="uk-card uk-card-default uk-card-body category">
+  <div class="category-title">
+    {{.Article.Title}}
+  </div>
+  <div class="category-info fcc">
+    <div class="category-info-item"><i class="iconfont rust_yaoqinghaoyou"></i><span>{{ .Article.UserName}}</span></div>
+    <div class="category-info-item"><i class="iconfont rust_redu"></i><span>{{.Article.Hot}}</span></div>
+    <div class="category-info-item"><i class="iconfont rust_shijian"></i><span>{{.ArticleTime}}</span></div>
+  </div>
+  <div class="category-content editor-content-view">
+    {{.Article.ContentHtml}}
+  </div>
+</div>
+{{template "web/category/js" .}}

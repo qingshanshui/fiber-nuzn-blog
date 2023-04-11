@@ -1,0 +1,48 @@
+<div class="uk-card uk-card-default uk-card-body ">
+    <h1>文章列表</h1>
+    <div class="uk-overflow-auto">
+        <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
+            <thead>
+                <tr>
+                    <th class="uk-table-shrink">index</th>
+                    <th class="uk-table-expand">名称</th>
+                    <th class="uk-table-expand">排序</th>
+                    <th class="uk-table-expand">是否可见</th>
+                    <th class="uk-table-expand">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range $index,$elem := .Article}}
+                <tr>
+                    <td>{{$elem.Uid}}</td>
+                    <td class="hide2" style="padding: 0" title="{{$elem.Title}}">{{$elem.Title}}</td>
+                    <td>{{$elem.Sort}}</td>
+                    <td>
+                        {{if eq 2 $elem.Show}}
+                        <button class="uk-button uk-button-primary" disabled>显示</button>
+                        {{else}}
+                        <button class="uk-button uk-button-secondary" disabled>隐藏</button>
+                        {{end}}
+                    </td>
+                    <td>
+                        <input type="hidden" value="{{$elem.Uid}}">
+                        <button class="uk-button uk-button-primary admin_edit">编辑</button>
+                        <a href="#article-delete" uk-toggle class="uk-button uk-button-danger article_del">删除</a>
+                        <button class="uk-button uk-button-primary admin_baidu">百度推送</button>
+                    </td>
+                </tr>
+                {{end}}
+
+            </tbody>
+        </table>
+    </div>
+    <div id="article-delete" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+            <p>确定删除吗?</p><span></span>
+            <p class="uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">取消</button>
+                <button class="uk-button uk-button-primary article-del-save" type="button">确定</button>
+            </p>
+        </div>
+    </div>
+</div>

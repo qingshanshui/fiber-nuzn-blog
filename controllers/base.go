@@ -1,6 +1,9 @@
 package controllers
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"fiber-nuzn-blog/models"
+	"github.com/gofiber/fiber/v2"
+)
 
 // 返回的 code 码值
 const (
@@ -34,4 +37,41 @@ func If(code []int) int {
 		return code[0]
 	}
 	return ERROR
+}
+
+// InitData 首页查询接口
+func (r *Base) InitData() map[string]interface{} {
+	// 导航栏
+	mn := models.NewNavBar()
+	results := mn.GetWebNavBarList()
+
+	// 设置cookie
+	//cookie := c.Ctx.Input.Cookie("token")
+
+	/*        站点统计      */
+	// 文章数（article表的数量）
+	ma := models.NewArticle()
+	article := ma.GetArticleListCount()
+
+	// 分类数（navBar表）
+	navBar := mn.GetNavBarListCount()
+
+	// 页面数（article表+navBar表）
+	pages := article + navBar
+
+	// 更新 （文章表最后一条内容）
+	articleList := ma.GetArticleLast()
+
+	// 获取友链（友情链接）
+	ml := models.NewLink()
+	linkAll := ml.GetLinkList()
+	return map[string]interface{}{
+		"article":    article,
+		"navBar":     navBar,
+		"pages":      pages,
+		"updateTime": articleList.UpdatedAt.Format("2006-01-02"),
+		"linkAll":    linkAll,
+		"Sort":       results,
+	}
+	//c.Data["Cookie"] = cookie
 }

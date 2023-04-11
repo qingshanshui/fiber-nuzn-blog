@@ -1,0 +1,30 @@
+<div class="footer">
+    <div style="max-width: 1200px;margin: 0 auto">
+        <!--       友情链接-->
+        <div class="link-wrap">
+            <ul>
+                {{range $index,$elem := .linkAll}}
+                <li><a href="{{$elem.Url}}" target="_blank">{{$elem.Title}}</a></li>
+                {{end}}
+            </ul>
+        </div>
+        <!--      联系-->
+        <div class="copyright">
+            <!--        底部导航-->
+            <div class="footer-menu">
+                <ul>
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">联系站长</a></li>
+                    <li><a href="#">留言板</a></li>
+                    <li><a href="#">友链申请</a></li>
+                    <li><a href="#">ECharts</a></li>
+                    <li><a href="#">VECharts</a></li>
+                </ul>
+            </div>
+            <!--        网站备案-->
+            <div class="copyright-text">
+                <p>Copyright © dbsgw Blog All Rights Reserved. 2022-2023 鄂ICP备2022012826号-1 本站CDN存储由 百度云 提供，云服务器优惠</p>
+            </div>
+        </div>
+    </div>
+</div>

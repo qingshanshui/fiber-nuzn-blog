@@ -1,0 +1,62 @@
+<!--头部-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>前端笔记</title>
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="/css/uikit.min.css" />
+    <!--    全局css-->
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/admin/ly.css">
+</head>
+
+<body>
+
+    <nav class="nav fsc">
+        <div class="nav_logo">
+            <a href="/" target="_blank"> <img src="https://blog.dbsgw.com/logo.png" alt=""></a>
+        </div>
+        <div class="nav_titleContent">
+            <a href="/admin/home">首页</a>
+            <a href="#">设置</a>
+            <a class="logout">退出</a>
+        </div>
+    </nav>
+
+
+    <div class="home">
+        <div class="home_sidebar">
+            <!--        侧边栏-->
+            {{template "admin/layout/common/sidebar" .}}
+        </div>
+        <div class="home_container">
+            {{embed}}
+        </div>
+    </div>
+    <!-- UIkit JS -->
+    <script src="/js/uikit.min.js"></script>
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script>
+        let lo = document.querySelector(".logout")
+        lo.addEventListener('click', function () {
+            clearCookie()
+            location.href = '/'
+        })
+        function clearCookie() {
+            var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+            if (keys) {
+                for (var i = keys.length; i--;) {
+                    document.cookie = keys[i] + '=0;path=/;expires=' + new Date(0).toUTCString();//清除当前域名下的,例如：m.kevis.com
+                    document.cookie = keys[i] + '=0;path=/;domain=' + document.domain + ';expires=' + new Date(0).toUTCString();//清除当前域名下的，例如 .m.kevis.com
+                    document.cookie = keys[i] + '=0;path=/;domain=kevis.com;expires=' + new Date(0).toUTCString();//清除一级域名下的或指定的，例如 .kevis.com
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

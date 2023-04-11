@@ -1,4 +1,4 @@
-# fiber-layout-mvc
+# fiber-nuzn-blog
 
 > 本项目使用 go-fiber 框架为核心搭建的**mvc**架构的脚手架，可以基于本项目快速完成业务开发，开箱📦 即用
 
@@ -31,7 +31,7 @@ go get -u github.com/beego/bee/v2
 bee pack -be GOOS=linux
 
 # 服务器 nohup工具 跑起来 (在直接放到 服务器跑就行啦)
-nohup ./fiber-layout-mvc
+nohup ./fiber-nuzn-blog
 
 # 2. go打包
 
@@ -42,7 +42,7 @@ $ENV:GOOS="linux"
 go build mian.go
 
 # 服务器 nohup工具 跑起来 (在直接放到 服务器跑就行啦)
-nohup ./fiber-layout-mvc
+nohup ./fiber-nuzn-blog
 ```
 
 ### 目录结构

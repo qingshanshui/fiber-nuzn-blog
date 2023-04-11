@@ -1,16 +1,16 @@
 # 应用配置
 app:
   host: "127.0.0.1"
-  port: ":3000"
+  port: ":8001"
 
 # mysql配置
 mysql:
   enable: true
-  user: "root"
-  password: "123456"
+  user: "blog_nuzn"
+  password: "YnGNTrE6DcdwNLwj"
   host: "127.0.0.1"
   port: "3306"
-  dbname: "qingshanshui"
+  dbname: "blog_nuzn"
 
 # redis配置
 redis:

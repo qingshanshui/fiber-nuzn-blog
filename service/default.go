@@ -1,8 +1,8 @@
 package service
 
 import (
-	"fiber-layout-mvc/models"
-	"fiber-layout-mvc/validator/form"
+	"fiber-nuzn-blog/models"
+	"fiber-nuzn-blog/validator/form"
 )
 
 type Default struct{}

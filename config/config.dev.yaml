@@ -1,7 +1,7 @@
 # 应用配置
 app:
   host: "127.0.0.1"
-  port: ":3000"
+  port: ":8001"
 
 # mysql配置
 mysql:
@@ -43,4 +43,4 @@ md5:
   hash: "asdsad!#$FREWE12314"
 
 # true是dev环境,false是生产环境
-debug: true
+debug: false
