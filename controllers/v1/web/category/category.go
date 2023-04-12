@@ -21,14 +21,10 @@ func (t *CategoryController) Category(c *fiber.Ctx) error {
 	InitData := t.InitData()
 	// 实际业务调用
 	result := web.NewCategoryService().Category(uid)
-
-	if result == nil {
-		return c.Render("web/category/404", fiber.Map{}, "web/layout/index")
-	}
-
+	// 渲染页面
 	return c.Render("web/category/index", fiber.Map{
-		"ArticleCategory":     result["Cy"],
-		"ArticleCategoryTime": result["Cm"],
+		"ArticleCategory":     result.ArticleCategory,
+		"ArticleCategoryTime": result.ArticleCategoryTime,
 		"InitData":            InitData,
 	}, "web/layout/index")
 }

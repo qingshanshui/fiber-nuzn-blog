@@ -46,9 +46,6 @@ func (r *Base) InitData() form.InitData {
 	mn := models.NewNavBar()
 	nl := mn.GetWebNavBarList()
 
-	// 设置cookie
-	//cookie := c.Ctx.Input.Cookie("token")
-
 	/*        站点统计      */
 	ma := models.NewArticle()
 	// 获取文章总条数
@@ -75,7 +72,6 @@ func (r *Base) InitData() form.InitData {
 		LinkAllList:       ll,
 		WebNavBarList:     nl,
 	}
-	//c.Data["Cookie"] = cookie
 }
 
 // PaginationInit 初始化分页

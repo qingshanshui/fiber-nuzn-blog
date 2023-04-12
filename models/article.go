@@ -48,12 +48,11 @@ func (u *Article) AddHot() {
 }
 
 // GetArticleByUid 通过uid查询文章详情
-func (u *Article) GetArticleByUid(uid string) []Article {
-	var a []Article
-	if err := u.DB().Where("uid = ?", uid).Find(&a).Error; err != nil {
+func (u *Article) GetArticleByUid(uid string) *Article {
+	if err := u.DB().Where("uid = ?", uid).Find(u).Error; err != nil {
 		return nil
 	}
-	return a
+	return u
 }
 
 // GetArticleListAll 获取 全部文章 列表

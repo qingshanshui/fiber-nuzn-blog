@@ -32,10 +32,10 @@ func (t *SortController) Sort(c *fiber.Ctx) error {
 	InitData := t.InitData()
 	// 实际业务调用
 	result := web.NewSortService().Sort(SortRequestForm.CurrPage, SortRequestForm.PageSize, id)
-
+	// 渲染页面
 	return c.Render("web/sort/index", fiber.Map{
-		"ArticleList": result["Ae"],             // 文章列表
-		"TotalCount":  result["Tt"],             // 首页总条数
+		"ArticleList": result.ArticleList,       // 文章列表
+		"TotalCount":  result.TotalCount,        // 首页总条数
 		"CurrPage":    SortRequestForm.CurrPage, // 当前页码
 		"InitData":    InitData,
 	}, "web/layout/index")

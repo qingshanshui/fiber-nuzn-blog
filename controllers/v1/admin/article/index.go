@@ -162,7 +162,7 @@ func (t *DefaultController) Del(c *fiber.Ctx) error {
 	uid := c.Params("id")
 	ma := models.NewArticle()
 	dma := ma.GetArticleByUid(uid)
-	err := dma[0].Delete()
+	err := dma.Delete()
 	if err != nil {
 		return c.JSON(t.Fail(errors.New("删除文章失败")))
 	} else {

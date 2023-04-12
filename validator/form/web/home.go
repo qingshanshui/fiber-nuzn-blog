@@ -10,7 +10,7 @@ type HomeRequest struct {
 	form.PaginationRequest
 }
 
-// HomeResponse 主页入口参数
+// HomeResponse 主页出口参数
 type HomeResponse struct {
 	form.PaginationResponse
 	HotArticleList []models.Article // 热门推荐

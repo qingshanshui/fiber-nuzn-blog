@@ -2,7 +2,8 @@ package web
 
 import (
 	"fiber-nuzn-blog/models"
-	"github.com/gofiber/fiber/v2"
+	"fiber-nuzn-blog/validator/form"
+	"fiber-nuzn-blog/validator/form/web"
 )
 
 type Sort struct{}
@@ -12,7 +13,7 @@ func NewSortService() *Sort {
 }
 
 // Sort 分类
-func (t *Sort) Sort(currPage, pageSize int, id string) fiber.Map {
+func (t *Sort) Sort(currPage, pageSize int, id string) web.SortResponse {
 
 	ma := models.NewArticle()
 	// 首页文章列表
@@ -20,8 +21,10 @@ func (t *Sort) Sort(currPage, pageSize int, id string) fiber.Map {
 	// 首页总条数
 	tt := ma.GetSortToArticleListCount(id)
 
-	return fiber.Map{
-		"Ae": ae,
-		"Tt": tt,
+	return web.SortResponse{
+		PaginationResponse: form.PaginationResponse{
+			TotalCount: tt,
+		},
+		ArticleList: ae,
 	}
 }

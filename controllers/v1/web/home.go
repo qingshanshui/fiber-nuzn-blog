@@ -30,6 +30,7 @@ func (t *HomeController) Home(c *fiber.Ctx) error {
 	InitData := t.InitData()
 	// 实际业务调用
 	result := web.NewHomeService().Home(HomeRequestForm.CurrPage, HomeRequestForm.PageSize)
+	// 渲染页面
 	return c.Render("web/index", fiber.Map{
 		"HotArticleList": result.HotArticleList,    // 热门推荐
 		"ArticleList":    result.ArticleList,       // 文章列表
