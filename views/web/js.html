@@ -4,11 +4,9 @@
     var container = $('#pagination');
     var sources = function () {
       var result = [];
-
       for (var i = 1; i < {{.TotalCount }}; i++) {
       result.push(i);
     }
-
     return result;
   }();
 
