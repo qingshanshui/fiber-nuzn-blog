@@ -2,7 +2,8 @@ package web
 
 import (
 	"fiber-nuzn-blog/models"
-	"github.com/gofiber/fiber/v2"
+	"fiber-nuzn-blog/validator/form"
+	"fiber-nuzn-blog/validator/form/web"
 )
 
 type Home struct{}
@@ -12,7 +13,7 @@ func NewHomeService() *Home {
 }
 
 // Home 首页
-func (t *Home) Home(currPage, pageSize int) fiber.Map {
+func (t *Home) Home(currPage, pageSize int) web.HomeResponse {
 
 	ma := models.NewArticle()
 	// 首页文章列表
@@ -22,9 +23,11 @@ func (t *Home) Home(currPage, pageSize int) fiber.Map {
 	// 首页总条数
 	tt := ma.GetArticleCount()
 
-	return fiber.Map{
-		"Ae": ae,
-		"Ht": ht,
-		"Tt": tt,
+	return web.HomeResponse{
+		PaginationResponse: form.PaginationResponse{
+			TotalCount: tt,
+		},
+		HotArticleList: ht,
+		ArticleList:    ae,
 	}
 }

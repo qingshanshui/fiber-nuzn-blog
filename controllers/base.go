@@ -78,6 +78,7 @@ func (r *Base) InitData() form.InitData {
 	//c.Data["Cookie"] = cookie
 }
 
+// PaginationInit 初始化分页
 func (r *Base) PaginationInit(request *form.PaginationRequest) {
 	if request.PageSize == 0 {
 		request.PageSize = 10

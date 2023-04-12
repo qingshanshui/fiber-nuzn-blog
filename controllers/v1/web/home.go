@@ -18,7 +18,6 @@ func NewHomeController() *HomeController {
 
 // Home 首页
 func (t *HomeController) Home(c *fiber.Ctx) error {
-
 	// 初始化参数结构体
 	HomeRequestForm := web2.HomeRequest{}
 	// 绑定参数并使用验证器验证参数
@@ -32,9 +31,9 @@ func (t *HomeController) Home(c *fiber.Ctx) error {
 	// 实际业务调用
 	result := web.NewHomeService().Home(HomeRequestForm.CurrPage, HomeRequestForm.PageSize)
 	return c.Render("web/index", fiber.Map{
-		"HotArticleList": result["Ht"],             // 热门推荐
-		"ArticleList":    result["Ae"],             // 文章列表
-		"TotalCount":     result["Tt"],             // 首页总条数
+		"HotArticleList": result.HotArticleList,    // 热门推荐
+		"ArticleList":    result.ArticleList,       // 文章列表
+		"TotalCount":     result.TotalCount,        // 首页总条数
 		"CurrPage":       HomeRequestForm.CurrPage, // 当前页码
 		"InitData":       InitData,
 	}, "web/layout/index")

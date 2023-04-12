@@ -12,8 +12,8 @@ type PaginationRequest struct {
 
 // PaginationResponse 分页出参
 type PaginationResponse struct {
-	TotalCount int `form:"totalCount" json:"totalCount"` //  总条数
-	CurrPage   int `form:"currPage" json:"currPage"`     //  当前页码
+	TotalCount int64 `form:"totalCount" json:"totalCount"` //  总条数
+	CurrPage   int   `form:"currPage" json:"currPage"`     //  当前页码
 }
 
 // InitData 初始参数
