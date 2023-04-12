@@ -5,7 +5,7 @@
     var sources = function () {
       var result = [];
 
-      for (var i = 1; i < {{.TotalNumber }}; i++) {
+      for (var i = 1; i < {{.TotalCount }}; i++) {
       result.push(i);
     }
 
@@ -15,7 +15,7 @@
   var options = {
     dataSource: sources,
     pageSize: 10,
-    pageNumber: {{.PageNumber }},
+    pageNumber: {{.CurrPage }},
   callback: function (response, pagination) {
     window.console && console.log(response, pagination);
 
@@ -39,7 +39,7 @@
   container.pagination(options);
 
   container.addHook('beforePageOnClick', function (response, pagination) {
-    window.location.href = `?pageNumber=${pagination}`
+    window.location.href = `?currPage=${pagination}`
     //return false
   });
   }) ();

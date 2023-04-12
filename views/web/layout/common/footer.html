@@ -3,7 +3,7 @@
         <!--       友情链接-->
         <div class="link-wrap">
             <ul>
-                {{range $index,$elem := .linkAll}}
+                {{range $index,$elem := .InitData.LinkAllList}}
                 <li><a href="{{$elem.Url}}" target="_blank">{{$elem.Title}}</a></li>
                 {{end}}
             </ul>

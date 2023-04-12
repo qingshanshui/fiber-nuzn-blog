@@ -18,9 +18,9 @@ func SetRoute(app *fiber.App) {
 		home := web2.NewHomeController()
 		webRouter.Get("/", home.Home) // 首页
 		sort := SortController.NewSortController()
-		webRouter.Get("/sort/:id", sort.Home) // 分类页面
+		webRouter.Get("/sort/:id", sort.Sort) // 分类页面
 		category := CategoryController.NewCategoryController()
-		webRouter.Get("/category/:id.html", category.Home) // 详情
+		webRouter.Get("/category/:id.html", category.Category) // 详情
 	}
 	// 博客后台api
 	adminRouter := app.Group("/admin")

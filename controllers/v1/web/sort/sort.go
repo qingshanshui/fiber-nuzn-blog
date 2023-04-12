@@ -2,7 +2,9 @@ package SortController
 
 import (
 	"fiber-nuzn-blog/controllers"
-	"fiber-nuzn-blog/models"
+	"fiber-nuzn-blog/service/web"
+	"fiber-nuzn-blog/validator"
+	web2 "fiber-nuzn-blog/validator/form/web"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -14,37 +16,27 @@ func NewSortController() *SortController {
 	return &SortController{}
 }
 
-// Home 首页
-func (t *SortController) Home(c *fiber.Ctx) error {
-	InitData := t.InitData()
+// Sort 分类页
+func (t *SortController) Sort(c *fiber.Ctx) error {
 	// 当前分类id
 	id := c.Params("id")
-	// 一页多少条
-	pageSize, _ := c.ParamsInt("pageSize")
-	//当前页
-	pageNumber, _ := c.ParamsInt("pageNumber")
-
-	if pageSize == 0 {
-		pageSize = 10
+	// 初始化参数结构体
+	SortRequestForm := web2.SortRequest{}
+	// 绑定参数并使用验证器验证参数
+	if err := validator.CheckQueryParams(c, &SortRequestForm); err != nil {
+		return err
 	}
-	if pageNumber == 0 {
-		pageNumber = 1
-	}
-	ma := models.NewArticle()
-	// 总条数
-	totalNumber := ma.GetSortToArticleListCount(id)
-	// 文章列表
-	article := ma.GetSortToArticleList(pageNumber, pageSize, id)
+	// 分页调用
+	t.PaginationInit(&SortRequestForm.PaginationRequest)
+	// 公共调用
+	InitData := t.InitData()
+	// 实际业务调用
+	result := web.NewSortService().Sort(SortRequestForm.CurrPage, SortRequestForm.PageSize, id)
 
 	return c.Render("web/sort/index", fiber.Map{
-		"Article":     article,
-		"TotalNumber": totalNumber,
-		"PageNumber":  pageNumber,
-		"article":     InitData["article"],
-		"navBar":      InitData["navBar"],
-		"pages":       InitData["pages"],
-		"updateTime":  InitData["updateTime"],
-		"linkAll":     InitData["linkAll"],
-		"Sort":        InitData["Sort"],
+		"ArticleList": result["Ae"],             // 文章列表
+		"TotalCount":  result["Tt"],             // 首页总条数
+		"CurrPage":    SortRequestForm.CurrPage, // 当前页码
+		"InitData":    InitData,
 	}, "web/layout/index")
 }

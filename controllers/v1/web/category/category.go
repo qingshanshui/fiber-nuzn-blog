@@ -2,8 +2,7 @@ package CategoryController
 
 import (
 	"fiber-nuzn-blog/controllers"
-	"fiber-nuzn-blog/models"
-	"fmt"
+	"fiber-nuzn-blog/service/web"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -15,28 +14,21 @@ func NewCategoryController() *CategoryController {
 	return &CategoryController{}
 }
 
-// Home 首页
-func (t *CategoryController) Home(c *fiber.Ctx) error {
-
-	InitData := t.InitData()
+// Category 详情页
+func (t *CategoryController) Category(c *fiber.Ctx) error {
 	uid := c.Params("id")
-	fmt.Println(uid, "------")
-	ma := models.NewArticle()
-	// 通过uid 获取详情
-	Category := ma.GetArticleByUid(uid)
-	if Category == nil {
-		return c.Render("web/category/404", fiber.Map{}, "web/layout/home")
+	// 公共调用
+	InitData := t.InitData()
+	// 实际业务调用
+	result := web.NewCategoryService().Category(uid)
+
+	if result == nil {
+		return c.Render("web/category/404", fiber.Map{}, "web/layout/index")
 	}
-	ma.AddHot()
-	fmt.Println(InitData["navBar"], "============")
+
 	return c.Render("web/category/index", fiber.Map{
-		"Article":     Category,
-		"ArticleTime": Category.UpdatedAt.Format("2006-01-02"),
-		"article":     InitData["article"],
-		"navBar":      InitData["navBar"],
-		"pages":       InitData["pages"],
-		"updateTime":  InitData["updateTime"],
-		"linkAll":     InitData["linkAll"],
-		"Sort":        InitData["Sort"],
+		"ArticleCategory":     result["Cy"],
+		"ArticleCategoryTime": result["Cm"],
+		"InitData":            InitData,
 	}, "web/layout/index")
 }

@@ -5,7 +5,7 @@
         <strong>热门推荐</strong>
     </h3>
     <ul>
-        {{range $index,$elem := .Acrid}}
+        {{range $index,$elem := .HotArticleList}}
         <li class="acrid-item fsc" title="{{$elem.Title}}">
             <div class="acrid-item-sort">
                 {{$index | index}}
@@ -22,7 +22,7 @@
 </div>
 
 <!--文章-->
-{{range $index,$elem := .Article}}
+{{range $index,$elem := .ArticleList}}
 <article>
     <a href="/category/{{$elem.Uid}}.html" class="a">
         <div class="uk-card uk-card-default uk-card-body uk-animation-slide-bottom article" style="margin: 10px 0 ">

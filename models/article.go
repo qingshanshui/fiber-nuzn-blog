@@ -48,11 +48,12 @@ func (u *Article) AddHot() {
 }
 
 // GetArticleByUid 通过uid查询文章详情
-func (u *Article) GetArticleByUid(uid string) *Article {
-	if err := u.DB().Where("uid = ?", uid).First(u).Error; err != nil {
+func (u *Article) GetArticleByUid(uid string) []Article {
+	var a []Article
+	if err := u.DB().Where("uid = ?", uid).Find(&a).Error; err != nil {
 		return nil
 	}
-	return u
+	return a
 }
 
 // GetArticleListAll 获取 全部文章 列表
@@ -82,8 +83,8 @@ func (u *Article) GetSortToArticleList(pageNumber, pageSize int, id string) []Ar
 	return uArr
 }
 
-// GetAcridList 获取 热门推荐 文章列表
-func (u *Article) GetAcridList() []Article {
+// GetHotList 获取 热门推荐 文章列表
+func (u *Article) GetHotList() []Article {
 	var uArr []Article
 	if err := u.DB().Order("RAND()").Limit(5).Find(&uArr).Error; err != nil {
 		return nil
@@ -91,8 +92,8 @@ func (u *Article) GetAcridList() []Article {
 	return uArr
 }
 
-// GetArticleListCount 获取 首页文章列表 总数
-func (u *Article) GetArticleListCount() int64 {
+// GetArticleCount 获取 文章列表 总条数
+func (u *Article) GetArticleCount() int64 {
 	var count int64
 	if err := u.DB().Model(u).Where("`show` = ?", 2).Count(&count).Error; err != nil {
 		return 0

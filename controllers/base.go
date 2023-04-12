@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fiber-nuzn-blog/models"
+	"fiber-nuzn-blog/validator/form"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -40,38 +41,48 @@ func If(code []int) int {
 }
 
 // InitData 首页查询接口
-func (r *Base) InitData() map[string]interface{} {
+func (r *Base) InitData() form.InitData {
 	// 导航栏
 	mn := models.NewNavBar()
-	results := mn.GetWebNavBarList()
+	nl := mn.GetWebNavBarList()
 
 	// 设置cookie
 	//cookie := c.Ctx.Input.Cookie("token")
 
 	/*        站点统计      */
-	// 文章数（article表的数量）
 	ma := models.NewArticle()
-	article := ma.GetArticleListCount()
+	// 获取文章总条数
+	articleTotalCount := ma.GetArticleCount()
 
 	// 分类数（navBar表）
-	navBar := mn.GetNavBarListCount()
+	navBarCount := mn.GetNavBarListCount()
 
 	// 页面数（article表+navBar表）
-	pages := article + navBar
+	pagesCount := articleTotalCount + navBarCount
 
 	// 更新 （文章表最后一条内容）
-	articleList := ma.GetArticleLast()
+	ut := ma.GetArticleLast()
 
 	// 获取友链（友情链接）
 	ml := models.NewLink()
-	linkAll := ml.GetLinkList()
-	return map[string]interface{}{
-		"article":    article,
-		"navBar":     navBar,
-		"pages":      pages,
-		"updateTime": articleList.UpdatedAt.Format("2006-01-02"),
-		"linkAll":    linkAll,
-		"Sort":       results,
+	ll := ml.GetLinkList()
+
+	return form.InitData{
+		ArticleTotalCount: articleTotalCount,
+		NavBarCount:       navBarCount,
+		PagesCount:        pagesCount,
+		UpdateTime:        ut.UpdatedAt.Format("2006-01-02"),
+		LinkAllList:       ll,
+		WebNavBarList:     nl,
 	}
 	//c.Data["Cookie"] = cookie
+}
+
+func (r *Base) PaginationInit(request *form.PaginationRequest) {
+	if request.PageSize == 0 {
+		request.PageSize = 10
+	}
+	if request.CurrPage == 0 {
+		request.CurrPage = 1
+	}
 }
