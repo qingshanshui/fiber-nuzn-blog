@@ -15,17 +15,17 @@ import (
 	"github.com/jaevor/go-nanoid"
 )
 
-type DefaultController struct {
+type ArticleController struct {
 	controllers.Base
 }
 
-func NewDefaultController() *DefaultController {
-	return &DefaultController{}
+func NewArticleController() *ArticleController {
+	return &ArticleController{}
 }
 
 // Add 渲染创建文章页面
-func (t *DefaultController) Add(c *fiber.Ctx) error {
-	mn := models.NewNavBar()
+func (t *ArticleController) Add(c *fiber.Ctx) error {
+	mn := models.NewNavbar()
 	sort := mn.GetWebNavBarList()
 	if sort == nil {
 		return c.JSON(t.Fail(errors.New("分类获取失败")))
@@ -36,7 +36,7 @@ func (t *DefaultController) Add(c *fiber.Ctx) error {
 }
 
 // AddPost 创建文章
-func (t *DefaultController) AddPost(c *fiber.Ctx) error {
+func (t *ArticleController) AddPost(c *fiber.Ctx) error {
 
 	// 接收参数
 	sort, _ := c.ParamsInt("sort")
@@ -79,7 +79,7 @@ func (t *DefaultController) AddPost(c *fiber.Ctx) error {
 }
 
 // GetAll 获取文章列表
-func (t *DefaultController) GetAll(c *fiber.Ctx) error {
+func (t *ArticleController) GetAll(c *fiber.Ctx) error {
 	pageSize, _ := c.ParamsInt("pageSize")     // 一页多少条
 	pageNumber, _ := c.ParamsInt("pageNumber") //当前页
 
@@ -101,7 +101,7 @@ func (t *DefaultController) GetAll(c *fiber.Ctx) error {
 }
 
 // Edit 渲染修改文章页面
-func (t *DefaultController) Edit(c *fiber.Ctx) error {
+func (t *ArticleController) Edit(c *fiber.Ctx) error {
 	// 接收参数
 	id := c.Params("id")
 
@@ -109,7 +109,7 @@ func (t *DefaultController) Edit(c *fiber.Ctx) error {
 	ma := models.NewArticle()
 	article := ma.GetArticleByUid(id)
 	// 分类列表
-	mn := models.NewNavBar()
+	mn := models.NewNavbar()
 	sort := mn.GetWebNavBarList()
 
 	return c.Render("admin/article/edit_article", fiber.Map{
@@ -119,7 +119,7 @@ func (t *DefaultController) Edit(c *fiber.Ctx) error {
 }
 
 // EditPost 修改文章
-func (t *DefaultController) EditPost(c *fiber.Ctx) error {
+func (t *ArticleController) EditPost(c *fiber.Ctx) error {
 	// 接收参数
 	sort, _ := c.ParamsInt("sort")
 	title := c.Params("title")
@@ -158,7 +158,7 @@ func (t *DefaultController) EditPost(c *fiber.Ctx) error {
 }
 
 // Del 删除文章
-func (t *DefaultController) Del(c *fiber.Ctx) error {
+func (t *ArticleController) Del(c *fiber.Ctx) error {
 	uid := c.Params("id")
 	ma := models.NewArticle()
 	dma := ma.GetArticleByUid(uid)
@@ -171,7 +171,7 @@ func (t *DefaultController) Del(c *fiber.Ctx) error {
 }
 
 // Baidu 百度推送
-func (t *DefaultController) Baidu(c *fiber.Ctx) error {
+func (t *ArticleController) Baidu(c *fiber.Ctx) error {
 	uid := c.Params("id")
 	content := Post("http://data.zz.baidu.com/urls?site=blog.nuzn.cn&token=iW9On1j50GCOJUxq", "https://blog.nuzn.cn/category/"+uid+".html", "text/plain")
 	return c.JSON(content)

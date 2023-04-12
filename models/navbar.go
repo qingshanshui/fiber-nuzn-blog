@@ -15,8 +15,8 @@ func (u *NavBar) TableName() string {
 	return "blog_navBar"
 }
 
-// NewNavBar new一个空的结构体
-func NewNavBar() *NavBar {
+// NewNavbar new一个空的结构体
+func NewNavbar() *NavBar {
 	return &NavBar{}
 }
 

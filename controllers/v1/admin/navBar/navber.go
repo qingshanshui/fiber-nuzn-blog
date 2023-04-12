@@ -1,4 +1,4 @@
-package NavBarController
+package NavbarController
 
 import (
 	"errors"
@@ -19,7 +19,7 @@ func NewDefaultController() *DefaultController {
 // GetAll 获取全部导航栏
 func (t *DefaultController) GetAll(c *fiber.Ctx) error {
 
-	mn := models.NewNavBar()
+	mn := models.NewNavbar()
 	navBarAll := mn.GetWebNavBarListAll()
 	return c.Render("admin/navBar/index", fiber.Map{
 		"navBarAll": navBarAll,
@@ -43,7 +43,7 @@ func (t *DefaultController) AddPost(c *fiber.Ctx) error {
 	canonical, _ := nanoid.Standard(36)
 	uid := canonical()
 
-	mn := models.NewNavBar()
+	mn := models.NewNavbar()
 	mn.Uid = uid
 	mn.Title = title
 	mn.Url = url
@@ -65,7 +65,7 @@ func (t *DefaultController) Edit(c *fiber.Ctx) error {
 	// 接收参数
 	id := c.Params("id")
 	// 业务处理
-	mn := models.NewNavBar()
+	mn := models.NewNavbar()
 	sort := mn.GetLinkByUid(id)
 	return c.Render("admin/navBar/edit_navBar", fiber.Map{
 		"Result": sort,
@@ -81,7 +81,7 @@ func (t *DefaultController) EditPost(c *fiber.Ctx) error {
 	//sort, _ := c.Query("sort")
 	//show, _ := c.Query("show")
 	// 组装参数
-	mn := models.NewNavBar()
+	mn := models.NewNavbar()
 	mn.Title = title
 	mn.Url = url
 	//mn.Sort = sort
@@ -99,7 +99,7 @@ func (t *DefaultController) EditPost(c *fiber.Ctx) error {
 func (t *DefaultController) Del(c *fiber.Ctx) error {
 	id := c.Params("id")
 
-	mn := models.NewNavBar()
+	mn := models.NewNavbar()
 	dmn := mn.GetLinkByUid(id)
 	if dmn == nil {
 		//c.Fail("删除导航栏不存在")

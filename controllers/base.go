@@ -43,7 +43,7 @@ func If(code []int) int {
 // InitData 首页查询接口
 func (r *Base) InitData() form.InitData {
 	// 导航栏
-	mn := models.NewNavBar()
+	mn := models.NewNavbar()
 	nl := mn.GetWebNavBarList()
 
 	/*        站点统计      */

@@ -5,7 +5,7 @@ import (
 	ArticleController "fiber-nuzn-blog/controllers/v1/admin/article"
 	LinkController "fiber-nuzn-blog/controllers/v1/admin/link"
 	LoginController "fiber-nuzn-blog/controllers/v1/admin/login"
-	NavBarController "fiber-nuzn-blog/controllers/v1/admin/navBar"
+	NavBarController "fiber-nuzn-blog/controllers/v1/admin/navbar"
 	web2 "fiber-nuzn-blog/controllers/v1/web"
 	CategoryController "fiber-nuzn-blog/controllers/v1/web/category"
 	SortController "fiber-nuzn-blog/controllers/v1/web/sort"
@@ -38,13 +38,13 @@ func SetRoute(app *fiber.App) {
 		// 首页
 		homeAdminRouter := adminRouter.Group("home")
 		{
-			adminHome := admin.NewDefaultController()
+			adminHome := admin.NewHomeController()
 			homeAdminRouter.Get("/", adminHome.Home) // 首页
 		}
 		// 文章
 		articleAdminRouter := adminRouter.Group("article")
 		{
-			articleAdmin := ArticleController.NewDefaultController()
+			articleAdmin := ArticleController.NewArticleController()
 			articleAdminRouter.Get("/", articleAdmin.GetAll)        // 文章首页
 			articleAdminRouter.Get("/add", articleAdmin.Add)        // 添加页面
 			articleAdminRouter.Post("/add", articleAdmin.AddPost)   // 添加接口

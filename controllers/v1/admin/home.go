@@ -5,15 +5,15 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type DefaultController struct {
+type HomeController struct {
 	controllers.Base
 }
 
-func NewDefaultController() *DefaultController {
-	return &DefaultController{}
+func NewHomeController() *HomeController {
+	return &HomeController{}
 }
 
 // Home 首页
-func (t *DefaultController) Home(c *fiber.Ctx) error {
+func (t *HomeController) Home(c *fiber.Ctx) error {
 	return c.Render("admin/index", fiber.Map{}, "admin/layout/index")
 }
