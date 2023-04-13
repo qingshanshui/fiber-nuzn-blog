@@ -30,7 +30,7 @@ func SetRoute(app *fiber.App) {
 		// 登录login
 		loginAdminRouter := adminRouter.Group("login")
 		{
-			login := LoginController.NewDefaultController()
+			login := LoginController.NewLoginController()
 			loginAdminRouter.Get("/", login.Get)          // 登录页面
 			loginAdminRouter.Post("/", login.Post)        // 登录
 			loginAdminRouter.Get("/logout", login.Logout) // 退出
@@ -56,7 +56,7 @@ func SetRoute(app *fiber.App) {
 		//导航栏
 		navbarAdminRouter := adminRouter.Group("navbar")
 		{
-			navbarAdmin := NavBarController.NewDefaultController()
+			navbarAdmin := NavBarController.NewNavbarController()
 			navbarAdminRouter.Get("/", navbarAdmin.GetAll)        // 导航栏首页
 			navbarAdminRouter.Get("/add", navbarAdmin.Add)        // 添加页面
 			navbarAdminRouter.Post("/add", navbarAdmin.AddPost)   // 添加接口
@@ -67,7 +67,7 @@ func SetRoute(app *fiber.App) {
 		//友链
 		linkAdminRouter := adminRouter.Group("link")
 		{
-			linkAdmin := LinkController.NewDefaultController()
+			linkAdmin := LinkController.NewLinkController()
 			linkAdminRouter.Get("/", linkAdmin.GetAll)        // 友链首页
 			linkAdminRouter.Get("/add", linkAdmin.Add)        // 添加页面
 			linkAdminRouter.Post("/add", linkAdmin.AddPost)   // 添加接口

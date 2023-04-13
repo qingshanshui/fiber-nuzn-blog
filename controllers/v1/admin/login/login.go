@@ -10,21 +10,21 @@ import (
 	"github.com/spf13/viper"
 )
 
-type DefaultController struct {
+type LoginController struct {
 	controllers.Base
 }
 
-func NewDefaultController() *DefaultController {
-	return &DefaultController{}
+func NewLoginController() *LoginController {
+	return &LoginController{}
 }
 
 // Get 登录页面
-func (t *DefaultController) Get(c *fiber.Ctx) error {
+func (t *LoginController) Get(c *fiber.Ctx) error {
 	return c.Render("admin/login/index", nil)
 }
 
 // Post 登录
-func (t *DefaultController) Post(c *fiber.Ctx) error {
+func (t *LoginController) Post(c *fiber.Ctx) error {
 	// 接收参数
 	username := c.Query("username")
 	password := c.Query("password")
@@ -52,7 +52,7 @@ func (t *DefaultController) Post(c *fiber.Ctx) error {
 }
 
 // Logout 退出
-func (t *DefaultController) Logout(c *fiber.Ctx) error {
+func (t *LoginController) Logout(c *fiber.Ctx) error {
 	c.ClearCookie()
 	return c.Redirect("/", 301)
 }

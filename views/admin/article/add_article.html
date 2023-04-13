@@ -1,3 +1,4 @@
+{{template "admin/article/css" .}}
 <div class="uk-card uk-card-default uk-card-body ">
     <h1>写文章</h1>
     <div class="uk-grid ">
@@ -49,7 +50,7 @@
     </div>
 </div>
 <!--添加-->
-<script type="text/javascript" src="/static/js/admin/wangEditor.5.1.js"></script>
+<script type="text/javascript" src="/js/admin/wangEditor.5.1.js"></script>
 <script>
     const { createEditor, createToolbar } = window.wangEditor
 
@@ -104,3 +105,4 @@
         });
     })
 </script>
+{{template "admin/article/js" .}}

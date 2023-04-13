@@ -9,16 +9,16 @@ import (
 	"github.com/jaevor/go-nanoid"
 )
 
-type DefaultController struct {
+type LinkController struct {
 	controllers.Base
 }
 
-func NewDefaultController() *DefaultController {
-	return &DefaultController{}
+func NewLinkController() *LinkController {
+	return &LinkController{}
 }
 
 // GetAll 获取友链
-func (t *DefaultController) GetAll(c *fiber.Ctx) error {
+func (t *LinkController) GetAll(c *fiber.Ctx) error {
 	ml := models.NewLink()
 	linkAll := ml.GetAdminLinkList()
 	return c.Render("admin/link/index", fiber.Map{
@@ -27,12 +27,12 @@ func (t *DefaultController) GetAll(c *fiber.Ctx) error {
 }
 
 // Add 渲染添加友链
-func (t *DefaultController) Add(c *fiber.Ctx) error {
+func (t *LinkController) Add(c *fiber.Ctx) error {
 	return c.Render("admin/link/add_link", fiber.Map{}, "admin/layout/index")
 }
 
 // AddPost 添加友链的post
-func (t *DefaultController) AddPost(c *fiber.Ctx) error {
+func (t *LinkController) AddPost(c *fiber.Ctx) error {
 	// 接收参数
 	title := c.Params("title")
 	url := c.Params("url")
@@ -60,7 +60,7 @@ func (t *DefaultController) AddPost(c *fiber.Ctx) error {
 }
 
 // Edit 渲染 编辑友链
-func (t *DefaultController) Edit(c *fiber.Ctx) error {
+func (t *LinkController) Edit(c *fiber.Ctx) error {
 
 	id := c.Params("id")
 	ml := models.NewLink()
@@ -71,7 +71,7 @@ func (t *DefaultController) Edit(c *fiber.Ctx) error {
 }
 
 // EditPost 编辑友链的post
-func (t *DefaultController) EditPost(c *fiber.Ctx) error {
+func (t *LinkController) EditPost(c *fiber.Ctx) error {
 	// 接收参数
 	id := c.Params("id")
 	title := c.Params("title")
@@ -98,7 +98,7 @@ func (t *DefaultController) EditPost(c *fiber.Ctx) error {
 }
 
 // Del 删除友链
-func (t *DefaultController) Del(c *fiber.Ctx) error {
+func (t *LinkController) Del(c *fiber.Ctx) error {
 	// 接收参数
 	id := c.Params("id")
 
