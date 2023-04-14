@@ -1,8 +1,13 @@
 package models
 
+import (
+	"fiber-nuzn-blog/initalize"
+	"gorm.io/gorm"
+)
+
 // User 用户表
 type User struct {
-	BasesModel
+	*gorm.Model
 	Uid       string `gorm:"not null;comment:用户uid，唯一id" json:"uid"`       // 用户uid，唯一id
 	Username  string `gorm:"comment:用户名" json:"username"`                  // 用户名
 	Nickname  string `gorm:"comment:昵称" json:"nickname"`                   // 昵称
@@ -28,27 +33,27 @@ func NewUser() *User {
 
 // Login 登录
 func (u *User) Login(username, password string) error {
-	return u.DB().Where("username=? AND password =?", username, password).Find(u).Error
+	return initalize.DB.Where("username=? AND password =?", username, password).Find(u).Error
 }
 
 // Create 创建
 func (u *User) Create() error {
-	return u.DB().Create(u).Error
+	return initalize.DB.Create(u).Error
 }
 
 // Delete 删除
 func (u *User) Delete() error {
-	return u.DB().Model(u).Delete(u).Error
+	return initalize.DB.Model(u).Delete(u).Error
 }
 
 // Update 修改
 func (u *User) Update(uid string) error {
-	return u.DB().Model(u).Where("uid = ? ", uid).Updates(u).Error
+	return initalize.DB.Model(u).Where("uid = ? ", uid).Updates(u).Error
 }
 
 // GetUserByUid 通过uid查询 用户 详情
 func (u *User) GetUserByUid(uid string) *User {
-	if err := u.DB().Where("uid = ?", uid).First(u).Error; err != nil {
+	if err := initalize.DB.Where("uid = ?", uid).First(u).Error; err != nil {
 		return nil
 	}
 	return u
@@ -57,7 +62,7 @@ func (u *User) GetUserByUid(uid string) *User {
 // GetUserListCount 获取 当前用户 总数
 func (u *User) GetUserListCount() int64 {
 	var count int64
-	if err := u.DB().Model(u).Count(&count).Error; err != nil {
+	if err := initalize.DB.Model(u).Count(&count).Error; err != nil {
 		return 0
 	}
 	return count

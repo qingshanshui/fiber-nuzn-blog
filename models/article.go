@@ -1,8 +1,13 @@
 package models
 
+import (
+	"fiber-nuzn-blog/initalize"
+	"gorm.io/gorm"
+)
+
 // Article 文章表
 type Article struct {
-	BasesModel
+	*gorm.Model
 	Uid         string `gorm:"not null;comment:文章uid，唯一id" json:"uid"`            // id
 	Sort        int    `gorm:"comment:文章排序" json:"sort"`                          // 排序
 	Title       string `gorm:"not null;comment:文章标题" json:"title"`                // 标题
@@ -29,27 +34,27 @@ func NewArticle() *Article {
 
 // Create 创建
 func (u *Article) Create() error {
-	return u.DB().Create(u).Error
+	return initalize.DB.Create(u).Error
 }
 
 // Delete 删除
 func (u *Article) Delete() error {
-	return u.DB().Model(u).Delete(u).Error
+	return initalize.DB.Model(u).Delete(u).Error
 }
 
 // Update 修改
 func (u *Article) Update(uid string) error {
-	return u.DB().Model(u).Where("uid = ? ", uid).Updates(u).Error
+	return initalize.DB.Model(u).Where("uid = ? ", uid).Updates(u).Error
 }
 
 // AddHot 文章点击数增加
 func (u *Article) AddHot() {
-	u.DB().Model(u).Update("hot", u.Hot+1)
+	initalize.DB.Model(u).Update("hot", u.Hot+1)
 }
 
 // GetArticleByUid 通过uid查询文章详情
 func (u *Article) GetArticleByUid(uid string) *Article {
-	if err := u.DB().Where("uid = ?", uid).Find(u).Error; err != nil {
+	if err := initalize.DB.Where("uid = ?", uid).Find(u).Error; err != nil {
 		return nil
 	}
 	return u
@@ -58,7 +63,7 @@ func (u *Article) GetArticleByUid(uid string) *Article {
 // GetArticleListAll 获取 全部文章 列表
 func (u *Article) GetArticleListAll(pageNumber, pageSize int) []Article {
 	var uArr []Article
-	if err := u.DB().Offset((pageNumber - 1) * pageSize).Limit(pageSize).Order("created_at desc").Limit(10).Find(&uArr).Error; err != nil {
+	if err := initalize.DB.Offset((pageNumber - 1) * pageSize).Limit(pageSize).Order("created_at desc").Limit(10).Find(&uArr).Error; err != nil {
 		return nil
 	}
 	return uArr
@@ -67,7 +72,7 @@ func (u *Article) GetArticleListAll(pageNumber, pageSize int) []Article {
 // GetArticleList 获取 首页文章 列表
 func (u *Article) GetArticleList(pageNumber, pageSize int) []Article {
 	var uArr []Article
-	if err := u.DB().Where("`show` = ?", 2).Offset((pageNumber - 1) * pageSize).Limit(pageSize).Order("created_at desc").Limit(10).Find(&uArr).Error; err != nil {
+	if err := initalize.DB.Where("`show` = ?", 2).Offset((pageNumber - 1) * pageSize).Limit(pageSize).Order("created_at desc").Limit(10).Find(&uArr).Error; err != nil {
 		return nil
 	}
 	return uArr
@@ -76,7 +81,7 @@ func (u *Article) GetArticleList(pageNumber, pageSize int) []Article {
 // GetSortToArticleList 获取 分类页文章 列表
 func (u *Article) GetSortToArticleList(pageNumber, pageSize int, id string) []Article {
 	var uArr []Article
-	if err := u.DB().Where("nav_bar_id = ? and `show` = ?", id, 2).Offset((pageNumber - 1) * pageSize).Limit(pageSize).Order("created_at desc").Limit(10).Find(&uArr).Error; err != nil {
+	if err := initalize.DB.Where("nav_bar_id = ? and `show` = ?", id, 2).Offset((pageNumber - 1) * pageSize).Limit(pageSize).Order("created_at desc").Limit(10).Find(&uArr).Error; err != nil {
 		return nil
 	}
 	return uArr
@@ -85,7 +90,7 @@ func (u *Article) GetSortToArticleList(pageNumber, pageSize int, id string) []Ar
 // GetHotList 获取 热门推荐 文章列表
 func (u *Article) GetHotList() []Article {
 	var uArr []Article
-	if err := u.DB().Order("RAND()").Limit(5).Find(&uArr).Error; err != nil {
+	if err := initalize.DB.Order("RAND()").Limit(5).Find(&uArr).Error; err != nil {
 		return nil
 	}
 	return uArr
@@ -94,7 +99,7 @@ func (u *Article) GetHotList() []Article {
 // GetArticleCount 获取 文章列表 总条数
 func (u *Article) GetArticleCount() int64 {
 	var count int64
-	if err := u.DB().Model(u).Where("`show` = ?", 2).Count(&count).Error; err != nil {
+	if err := initalize.DB.Model(u).Where("`show` = ?", 2).Count(&count).Error; err != nil {
 		return 0
 	}
 	return count
@@ -103,7 +108,7 @@ func (u *Article) GetArticleCount() int64 {
 // GetSortToArticleListCount 获取 分类文章列表 总数
 func (u *Article) GetSortToArticleListCount(id string) int64 {
 	var count int64
-	if err := u.DB().Model(u).Where("nav_bar_id = ? and `show` = ?", id, 2).Count(&count).Error; err != nil {
+	if err := initalize.DB.Model(u).Where("nav_bar_id = ? and `show` = ?", id, 2).Count(&count).Error; err != nil {
 		return 0
 	}
 	return count
@@ -111,7 +116,7 @@ func (u *Article) GetSortToArticleListCount(id string) int64 {
 
 // GetArticleLast 获取最后一篇文章
 func (u *Article) GetArticleLast() *Article {
-	if err := u.DB().Last(u).Error; err != nil {
+	if err := initalize.DB.Last(u).Error; err != nil {
 		return nil
 	}
 	return u

@@ -8,16 +8,16 @@ import (
 	"github.com/jaevor/go-nanoid"
 )
 
-type DefaultController struct {
+type NavbarController struct {
 	controllers.Base
 }
 
-func NewDefaultController() *DefaultController {
-	return &DefaultController{}
+func NewNavbarController() *NavbarController {
+	return &NavbarController{}
 }
 
 // GetAll 获取全部导航栏
-func (t *DefaultController) GetAll(c *fiber.Ctx) error {
+func (t *NavbarController) GetAll(c *fiber.Ctx) error {
 
 	mn := models.NewNavbar()
 	navBarAll := mn.GetWebNavBarListAll()
@@ -27,12 +27,12 @@ func (t *DefaultController) GetAll(c *fiber.Ctx) error {
 }
 
 // Add 渲染添加分类
-func (t *DefaultController) Add(c *fiber.Ctx) error {
+func (t *NavbarController) Add(c *fiber.Ctx) error {
 	return c.Render("admin/navBar/add_navBar", fiber.Map{}, "admin/layout/index")
 }
 
 // AddPost 添加分类的post
-func (t *DefaultController) AddPost(c *fiber.Ctx) error {
+func (t *NavbarController) AddPost(c *fiber.Ctx) error {
 	// 接收数据
 	title := c.Query("title")
 	url := c.Query("url")
@@ -61,7 +61,7 @@ func (t *DefaultController) AddPost(c *fiber.Ctx) error {
 }
 
 // Edit 渲染编辑分类
-func (t *DefaultController) Edit(c *fiber.Ctx) error {
+func (t *NavbarController) Edit(c *fiber.Ctx) error {
 	// 接收参数
 	id := c.Params("id")
 	// 业务处理
@@ -73,7 +73,7 @@ func (t *DefaultController) Edit(c *fiber.Ctx) error {
 }
 
 // EditPost 编辑分类的post
-func (t *DefaultController) EditPost(c *fiber.Ctx) error {
+func (t *NavbarController) EditPost(c *fiber.Ctx) error {
 	// 接收参数
 	id := c.Query("id")
 	title := c.Query("title")
@@ -96,7 +96,7 @@ func (t *DefaultController) EditPost(c *fiber.Ctx) error {
 }
 
 // Del 删除分类
-func (t *DefaultController) Del(c *fiber.Ctx) error {
+func (t *NavbarController) Del(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	mn := models.NewNavbar()

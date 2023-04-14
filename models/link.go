@@ -1,8 +1,13 @@
 package models
 
+import (
+	"fiber-nuzn-blog/initalize"
+	"gorm.io/gorm"
+)
+
 // Link 友链
 type Link struct {
-	BasesModel
+	*gorm.Model
 	Uid      string `gorm:"not null;comment:友链uid，唯一id" json:"uid"` // uid
 	Title    string `gorm:"comment:友链名称" json:"title"`              // 名称
 	Url      string `gorm:"comment:友链url" json:"url"`               // url
@@ -23,22 +28,22 @@ func NewLink() *Link {
 
 // Create 创建
 func (u *Link) Create() error {
-	return u.DB().Create(u).Error
+	return initalize.DB.Create(u).Error
 }
 
 // Delete 删除
 func (u *Link) Delete() error {
-	return u.DB().Model(u).Delete(u).Error
+	return initalize.DB.Model(u).Delete(u).Error
 }
 
 // Update 修改
 func (u *Link) Update(uid string) error {
-	return u.DB().Model(u).Where("uid = ? ", uid).Updates(u).Error
+	return initalize.DB.Model(u).Where("uid = ? ", uid).Updates(u).Error
 }
 
 // GetLinkByUid 通过uid查询 友链 详情
 func (u *Link) GetLinkByUid(uid string) *Link {
-	if err := u.DB().Where("uid = ?", uid).First(u).Error; err != nil {
+	if err := initalize.DB.Where("uid = ?", uid).First(u).Error; err != nil {
 		return nil
 	}
 	return u
@@ -47,7 +52,7 @@ func (u *Link) GetLinkByUid(uid string) *Link {
 // GetLinkList 获取 首页友链 列表
 func (u *Link) GetLinkList() []Link {
 	var uArr []Link
-	if err := u.DB().Where("`show` = ?", 2).Order("sort desc").Limit(10).Find(&uArr).Error; err != nil {
+	if err := initalize.DB.Where("`show` = ?", 2).Order("sort desc").Limit(10).Find(&uArr).Error; err != nil {
 		return nil
 	}
 	return uArr
@@ -56,7 +61,7 @@ func (u *Link) GetLinkList() []Link {
 // GetAdminLinkList 获取 admin友链 列表
 func (u *Link) GetAdminLinkList() []Link {
 	var uArr []Link
-	if err := u.DB().Order("sort desc").Find(&uArr).Error; err != nil {
+	if err := initalize.DB.Order("sort desc").Find(&uArr).Error; err != nil {
 		return nil
 	}
 	return uArr
