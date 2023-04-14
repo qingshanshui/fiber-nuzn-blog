@@ -259,3 +259,7 @@ li {
         margin: 0;
     }
 }
+
+.web_nav a {
+    display: block;
+}
