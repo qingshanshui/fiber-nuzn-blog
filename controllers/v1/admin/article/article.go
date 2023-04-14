@@ -30,7 +30,7 @@ func (t *ArticleController) Add(c *fiber.Ctx) error {
 	if sort == nil {
 		return c.JSON(t.Fail(errors.New("分类获取失败")))
 	}
-	return c.Render("admin/article/add_article", fiber.Map{
+	return c.Render("admin/article/create", fiber.Map{
 		"Sort": sort,
 	}, "admin/layout/index")
 }
@@ -112,7 +112,7 @@ func (t *ArticleController) Edit(c *fiber.Ctx) error {
 	mn := models.NewNavbar()
 	sort := mn.GetWebNavBarList()
 
-	return c.Render("admin/article/edit_article", fiber.Map{
+	return c.Render("admin/article/edit", fiber.Map{
 		"Sort":   sort,
 		"Result": article,
 	}, "admin/layout/index")

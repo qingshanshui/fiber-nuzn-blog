@@ -21,14 +21,14 @@ func (t *NavbarController) GetAll(c *fiber.Ctx) error {
 
 	mn := models.NewNavbar()
 	navBarAll := mn.GetWebNavBarListAll()
-	return c.Render("admin/navBar/index", fiber.Map{
+	return c.Render("admin/navbar/index", fiber.Map{
 		"navBarAll": navBarAll,
 	}, "admin/layout/index")
 }
 
 // Add 渲染添加分类
 func (t *NavbarController) Add(c *fiber.Ctx) error {
-	return c.Render("admin/navBar/add_navBar", fiber.Map{}, "admin/layout/index")
+	return c.Render("admin/navbar/create", fiber.Map{}, "admin/layout/index")
 }
 
 // AddPost 添加分类的post
@@ -67,7 +67,7 @@ func (t *NavbarController) Edit(c *fiber.Ctx) error {
 	// 业务处理
 	mn := models.NewNavbar()
 	sort := mn.GetLinkByUid(id)
-	return c.Render("admin/navBar/edit_navBar", fiber.Map{
+	return c.Render("admin/navbar/edit", fiber.Map{
 		"Result": sort,
 	}, "admin/layout/index")
 }

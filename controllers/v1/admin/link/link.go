@@ -28,7 +28,7 @@ func (t *LinkController) GetAll(c *fiber.Ctx) error {
 
 // Add 渲染添加友链
 func (t *LinkController) Add(c *fiber.Ctx) error {
-	return c.Render("admin/link/add_link", fiber.Map{}, "admin/layout/index")
+	return c.Render("admin/link/create", fiber.Map{}, "admin/layout/index")
 }
 
 // AddPost 添加友链的post
@@ -65,7 +65,7 @@ func (t *LinkController) Edit(c *fiber.Ctx) error {
 	id := c.Params("id")
 	ml := models.NewLink()
 	sort := ml.GetLinkByUid(id)
-	return c.Render("admin/link/edit_link", fiber.Map{
+	return c.Render("admin/link/edit", fiber.Map{
 		"Result": sort,
 	}, "admin/layout/index")
 }
