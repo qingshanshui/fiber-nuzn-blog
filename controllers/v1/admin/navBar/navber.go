@@ -3,9 +3,10 @@ package NavbarController
 import (
 	"errors"
 	"fiber-nuzn-blog/controllers"
-	"fiber-nuzn-blog/models"
+	"fiber-nuzn-blog/service/admin"
+	"fiber-nuzn-blog/validator"
+	admin2 "fiber-nuzn-blog/validator/form/admin"
 	"github.com/gofiber/fiber/v2"
-	"github.com/jaevor/go-nanoid"
 )
 
 type NavbarController struct {
@@ -16,100 +17,74 @@ func NewNavbarController() *NavbarController {
 	return &NavbarController{}
 }
 
-// GetAll 获取全部导航栏
-func (t *NavbarController) GetAll(c *fiber.Ctx) error {
-
-	mn := models.NewNavbar()
-	navBarAll := mn.GetWebNavBarListAll()
+// Home 导航栏管理页面
+func (t *NavbarController) Home(c *fiber.Ctx) error {
+	// 实际业务调用
+	result := admin.NewNavbarService().Home()
+	// 渲染页面
 	return c.Render("admin/navbar/index", fiber.Map{
-		"navBarAll": navBarAll,
+		"navBarAll": result,
 	}, "admin/layout/index")
 }
 
-// Add 渲染添加分类
-func (t *NavbarController) Add(c *fiber.Ctx) error {
+// AddView 渲染添加分类
+func (t *NavbarController) AddView(c *fiber.Ctx) error {
 	return c.Render("admin/navbar/create", fiber.Map{}, "admin/layout/index")
 }
 
-// AddPost 添加分类的post
-func (t *NavbarController) AddPost(c *fiber.Ctx) error {
-	// 接收数据
-	title := c.Query("title")
-	url := c.Query("url")
-	//sort := c.Query("sort")
-	//show := c.Query("show")
-
-	// 组装数据
-	canonical, _ := nanoid.Standard(36)
-	uid := canonical()
-
-	mn := models.NewNavbar()
-	mn.Uid = uid
-	mn.Title = title
-	mn.Url = url
-	//mn.Show = show
-	//mn.Sort = sort
-
-	// 业务处理
-	err := mn.Create()
+// Add 添加分类的post
+func (t *NavbarController) Add(c *fiber.Ctx) error {
+	// 初始化参数结构体
+	NavbarCreateResponseForm := admin2.NavbarRequest{}
+	// 绑定参数并使用验证器验证参数
+	if err := validator.CheckPostParams(c, &NavbarCreateResponseForm); err != nil {
+		return err
+	}
+	// 实际业务调用
+	err := admin.NewNavbarService().Add(NavbarCreateResponseForm)
 	if err != nil {
 		return c.JSON(t.Fail(errors.New("创建导航栏失败")))
-
 	} else {
-		return c.JSON(t.Fail(errors.New("创建导航栏成功")))
+		return c.JSON(t.Ok(errors.New("创建导航栏成功").Error()))
 	}
 }
 
-// Edit 渲染编辑分类
-func (t *NavbarController) Edit(c *fiber.Ctx) error {
+// EditView 渲染编辑分类
+func (t *NavbarController) EditView(c *fiber.Ctx) error {
 	// 接收参数
-	id := c.Params("id")
+	id := c.FormValue("id")
 	// 业务处理
-	mn := models.NewNavbar()
-	sort := mn.GetLinkByUid(id)
+	r := admin.NewNavbarService().EditView(id)
 	return c.Render("admin/navbar/edit", fiber.Map{
-		"Result": sort,
+		"Result": r,
 	}, "admin/layout/index")
 }
 
-// EditPost 编辑分类的post
-func (t *NavbarController) EditPost(c *fiber.Ctx) error {
-	// 接收参数
-	id := c.Query("id")
-	title := c.Query("title")
-	url := c.Query("url")
-	//sort, _ := c.Query("sort")
-	//show, _ := c.Query("show")
-	// 组装参数
-	mn := models.NewNavbar()
-	mn.Title = title
-	mn.Url = url
-	//mn.Sort = sort
-	//mn.Show = show
-	// 业务处理
-	err := mn.Update(id)
+// Edit 编辑分类的post
+func (t *NavbarController) Edit(c *fiber.Ctx) error {
+	// 初始化参数结构体
+	NavbarCreateResponseForm := admin2.NavbarEditRequest{}
+	// 绑定参数并使用验证器验证参数
+	if err := validator.CheckPostParams(c, &NavbarCreateResponseForm); err != nil {
+		return err
+	}
+	// 实际业务调用
+	err := admin.NewNavbarService().Edit(NavbarCreateResponseForm)
 	if err != nil {
 		return c.JSON(t.Fail(errors.New("编辑导航栏失败")))
 	} else {
-		return c.JSON(t.Fail(errors.New("编辑导航栏成功")))
+		return c.JSON(t.Ok(errors.New("编辑导航栏成功").Error()))
 	}
 }
 
 // Del 删除分类
 func (t *NavbarController) Del(c *fiber.Ctx) error {
-	id := c.Params("id")
-
-	mn := models.NewNavbar()
-	dmn := mn.GetLinkByUid(id)
-	if dmn == nil {
-		//c.Fail("删除导航栏不存在")
-		//return
-		return c.JSON(t.Fail(errors.New("删除导航栏不存在")))
-	}
-	err := dmn.Delete()
+	id := c.FormValue("id")
+	// 实际业务调用
+	err := admin.NewNavbarService().Del(id)
 	if err != nil {
 		return c.JSON(t.Fail(errors.New("删除导航栏失败")))
 	} else {
-		return c.JSON(t.Fail(errors.New("删除导航栏成功")))
+		return c.JSON(t.Ok(errors.New("删除导航栏成功").Error()))
 	}
 }

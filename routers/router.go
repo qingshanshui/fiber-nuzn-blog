@@ -57,12 +57,12 @@ func SetRoute(app *fiber.App) {
 		navbarAdminRouter := adminRouter.Group("navbar")
 		{
 			navbarAdmin := NavBarController.NewNavbarController()
-			navbarAdminRouter.Get("/", navbarAdmin.GetAll)        // 导航栏首页
-			navbarAdminRouter.Get("/add", navbarAdmin.Add)        // 添加页面
-			navbarAdminRouter.Post("/add", navbarAdmin.AddPost)   // 添加接口
-			navbarAdminRouter.Get("/edit", navbarAdmin.Edit)      // 编辑页面
-			navbarAdminRouter.Post("/edit", navbarAdmin.EditPost) // 编辑接口
-			navbarAdminRouter.Post("/del", navbarAdmin.Del)       // 删除接口
+			navbarAdminRouter.Get("/", navbarAdmin.Home)         // 导航栏管理页面
+			navbarAdminRouter.Get("/add", navbarAdmin.AddView)   // 添加页面
+			navbarAdminRouter.Post("/add", navbarAdmin.Add)      // 添加接口
+			navbarAdminRouter.Get("/edit", navbarAdmin.EditView) // 编辑页面
+			navbarAdminRouter.Post("/edit", navbarAdmin.Edit)    // 编辑接口
+			navbarAdminRouter.Post("/del", navbarAdmin.Del)      // 删除接口
 		}
 		//友链
 		linkAdminRouter := adminRouter.Group("link")
