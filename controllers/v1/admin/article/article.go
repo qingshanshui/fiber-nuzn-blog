@@ -5,14 +5,13 @@ import (
 	"errors"
 	"fiber-nuzn-blog/controllers"
 	"fiber-nuzn-blog/models"
-	"fiber-nuzn-blog/pkg/utils"
+	"fiber-nuzn-blog/service/admin"
+	"fiber-nuzn-blog/validator"
+	admin2 "fiber-nuzn-blog/validator/form/admin"
 	"github.com/gofiber/fiber/v2"
-	"github.com/spf13/viper"
 	"io/ioutil"
 	"net/http"
 	"time"
-
-	"github.com/jaevor/go-nanoid"
 )
 
 type ArticleController struct {
@@ -23,54 +22,41 @@ func NewArticleController() *ArticleController {
 	return &ArticleController{}
 }
 
-// Add 渲染创建文章页面
-func (t *ArticleController) Add(c *fiber.Ctx) error {
-	mn := models.NewNavbar()
-	sort := mn.GetWebNavBarList()
-	if sort == nil {
-		return c.JSON(t.Fail(errors.New("分类获取失败")))
+// Home 获取文章列表
+func (t *ArticleController) Home(c *fiber.Ctx) error {
+	// 初始化参数结构体
+	ArticleHomeRequestForm := admin2.ArticleHomeRequest{}
+	// 绑定参数并使用验证器验证参数
+	if err := validator.CheckQueryParams(c, &ArticleHomeRequestForm); err != nil {
+		return err
 	}
-	return c.Render("admin/article/create", fiber.Map{
-		"Sort": sort,
+	// 分页调用
+	t.PaginationInit(&ArticleHomeRequestForm.PaginationRequest)
+	r := admin.NewArticleService().Home(ArticleHomeRequestForm.PaginationRequest)
+	return c.Render("admin/article/article", fiber.Map{
+		"Article": r,
 	}, "admin/layout/index")
 }
 
-// AddPost 创建文章
-func (t *ArticleController) AddPost(c *fiber.Ctx) error {
+// AddView 渲染创建文章页面
+func (t *ArticleController) AddView(c *fiber.Ctx) error {
+	r := admin.NewArticleService().AddView()
+	return c.Render("admin/article/create", fiber.Map{
+		"Sort": r,
+	}, "admin/layout/index")
+}
 
-	// 接收参数
-	sort, _ := c.ParamsInt("sort")
-	title := c.Params("title")
-	content := c.Params("content")
-	contentHtml := c.Params("contentHtml")
-	pic := c.Params("pic")
-	show, _ := c.ParamsInt("show")
-	navBarId := c.Params("navBarId")
+// Add 创建文章
+func (t *ArticleController) Add(c *fiber.Ctx) error {
 
-	// token 解析
-	cookie := c.Cookies("token")
-	MapClaims, err := utils.ParseToken(cookie, viper.GetString("Jwt.Secret"))
-	if err != nil {
-		return c.JSON(t.Fail(errors.New("token解析失败")))
+	// 初始化参数结构体
+	ArticleCreateRequestForm := admin2.ArticleCreateRequest{}
+	// 绑定参数并使用验证器验证参数
+	if err := validator.CheckPostParams(c, &ArticleCreateRequestForm); err != nil {
+		return err
 	}
-
-	ma := models.NewArticle()
-	// 组装数据
-	canonical, _ := nanoid.Standard(36)
-	uid := canonical()
-	ma.Title = title
-	ma.Content = content
-	ma.ContentHtml = contentHtml
-	ma.NavBarId = navBarId
-	ma.Uid = uid
-	ma.Pic = pic
-	ma.Show = show
-	ma.Sort = sort
-	ma.UserId = MapClaims["user"].(map[string]interface{})["uid"].(string)
-	ma.UserName = MapClaims["user"].(map[string]interface{})["username"].(string)
-
-	// 业务处理
-	err = ma.Create()
+	// 实际业务调用
+	err := admin.NewArticleService().Add(ArticleCreateRequestForm)
 	if err != nil {
 		return c.JSON(t.Fail(errors.New("创建文章失败")))
 	} else {
@@ -78,78 +64,28 @@ func (t *ArticleController) AddPost(c *fiber.Ctx) error {
 	}
 }
 
-// GetAll 获取文章列表
-func (t *ArticleController) GetAll(c *fiber.Ctx) error {
-	pageSize, _ := c.ParamsInt("pageSize")     // 一页多少条
-	pageNumber, _ := c.ParamsInt("pageNumber") //当前页
-
-	if pageSize == 0 {
-		pageSize = 10
-	}
-	if pageNumber == 0 {
-		pageNumber = 1
-	}
-
-	ma := models.NewArticle()
-	article := ma.GetArticleListAll(pageNumber, pageSize)
-	if article == nil {
-		return c.JSON(t.Fail(errors.New("全部文章列表获取失败")))
-	}
-	return c.Render("admin/article/article", fiber.Map{
-		"Article": article,
-	}, "admin/layout/index")
-}
-
-// Edit 渲染修改文章页面
-func (t *ArticleController) Edit(c *fiber.Ctx) error {
+// EditView 渲染修改文章页面
+func (t *ArticleController) EditView(c *fiber.Ctx) error {
 	// 接收参数
-	id := c.Params("id")
-
-	// 文章详情
-	ma := models.NewArticle()
-	article := ma.GetArticleByUid(id)
-	// 分类列表
-	mn := models.NewNavbar()
-	sort := mn.GetWebNavBarList()
-
+	id := c.FormValue("id")
+	// 实际业务调用
+	r := admin.NewArticleService().EditView(id)
 	return c.Render("admin/article/edit", fiber.Map{
-		"Sort":   sort,
-		"Result": article,
+		"Sort":   r["A"],
+		"Result": r["S"],
 	}, "admin/layout/index")
 }
 
-// EditPost 修改文章
-func (t *ArticleController) EditPost(c *fiber.Ctx) error {
-	// 接收参数
-	sort, _ := c.ParamsInt("sort")
-	title := c.Params("title")
-	content := c.Params("content")
-	contentHtml := c.Params("contentHtml")
-	pic := c.Params("pic")
-	show, _ := c.ParamsInt("show")
-	navBarId := c.Params("navBarId")
-	id := c.Params("id")
-
-	// 解析token
-	cookie := c.Cookies("token")
-	MapClaims, err := utils.ParseToken(cookie, viper.GetString("Jwt.Secret"))
-	if err != nil {
-		return c.JSON(t.Fail(errors.New("token解析失败")))
+// Edit 修改文章
+func (t *ArticleController) Edit(c *fiber.Ctx) error {
+	// 初始化参数结构体
+	ArticleEditRequestForm := admin2.ArticleEditRequest{}
+	// 绑定参数并使用验证器验证参数
+	if err := validator.CheckPostParams(c, &ArticleEditRequestForm); err != nil {
+		return err
 	}
-
-	ma := models.NewArticle()
-	// 组装数据
-	ma.Title = title
-	ma.Content = content
-	ma.ContentHtml = contentHtml
-	ma.NavBarId = navBarId
-	ma.Pic = pic
-	ma.Show = show
-	ma.Sort = sort
-	ma.UserId = MapClaims["user"].(map[string]interface{})["uid"].(string)
-	ma.UserName = MapClaims["user"].(map[string]interface{})["username"].(string)
-
-	err = ma.Update(id)
+	// 实际业务调用
+	err := admin.NewArticleService().Edit(ArticleEditRequestForm)
 	if err != nil {
 		return c.JSON(t.Fail(errors.New("文章修改失败")))
 	} else {
@@ -159,7 +95,7 @@ func (t *ArticleController) EditPost(c *fiber.Ctx) error {
 
 // Del 删除文章
 func (t *ArticleController) Del(c *fiber.Ctx) error {
-	uid := c.Params("id")
+	uid := c.FormValue("id")
 	ma := models.NewArticle()
 	dma := ma.GetArticleByUid(uid)
 	err := dma.Delete()
@@ -172,7 +108,7 @@ func (t *ArticleController) Del(c *fiber.Ctx) error {
 
 // Baidu 百度推送
 func (t *ArticleController) Baidu(c *fiber.Ctx) error {
-	uid := c.Params("id")
+	uid := c.FormValue("id")
 	content := Post("http://data.zz.baidu.com/urls?site=blog.nuzn.cn&token=iW9On1j50GCOJUxq", "https://blog.nuzn.cn/category/"+uid+".html", "text/plain")
 	return c.JSON(content)
 }

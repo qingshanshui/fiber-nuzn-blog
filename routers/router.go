@@ -45,13 +45,13 @@ func SetRoute(app *fiber.App) {
 		articleAdminRouter := adminRouter.Group("article")
 		{
 			articleAdmin := ArticleController.NewArticleController()
-			articleAdminRouter.Get("/", articleAdmin.GetAll)        // 文章首页
-			articleAdminRouter.Get("/add", articleAdmin.Add)        // 添加页面
-			articleAdminRouter.Post("/add", articleAdmin.AddPost)   // 添加接口
-			articleAdminRouter.Get("/edit", articleAdmin.Edit)      // 编辑页面
-			articleAdminRouter.Post("/edit", articleAdmin.EditPost) // 编辑接口
-			articleAdminRouter.Post("/del", articleAdmin.Del)       // 删除接口
-			articleAdminRouter.Post("/baidu", articleAdmin.Baidu)   // 百度推送接口
+			articleAdminRouter.Get("/", articleAdmin.Home)         // 文章首页
+			articleAdminRouter.Get("/add", articleAdmin.AddView)   // 添加页面
+			articleAdminRouter.Post("/add", articleAdmin.Add)      // 添加接口
+			articleAdminRouter.Get("/edit", articleAdmin.EditView) // 编辑页面
+			articleAdminRouter.Post("/edit", articleAdmin.Edit)    // 编辑接口
+			articleAdminRouter.Post("/del", articleAdmin.Del)      // 删除接口
+			articleAdminRouter.Post("/baidu", articleAdmin.Baidu)  // 百度推送接口
 		}
 		//导航栏
 		navbarAdminRouter := adminRouter.Group("navbar")

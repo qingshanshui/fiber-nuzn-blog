@@ -8,8 +8,8 @@
             },
             dataType: "json",
             success: function (data) {
-                console.log(JSON.parse(data.data))
-                if (JSON.parse(data.data).success === 1) {
+                console.log(JSON.parse(data))
+                if (JSON.parse(data).success === 1) {
                     UIkit.notification({ message: '百度推送成功', status: 'success' })
                 } else {
                     UIkit.notification({ message: '百度推送失败', status: 'warning' })
