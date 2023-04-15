@@ -5,7 +5,6 @@ import (
 	"fiber-nuzn-blog/models"
 	"fiber-nuzn-blog/validator/form"
 	admin2 "fiber-nuzn-blog/validator/form/admin"
-	"github.com/gofiber/fiber/v2"
 	"github.com/jaevor/go-nanoid"
 )
 
@@ -60,17 +59,17 @@ func (t *Article) Add(r admin2.ArticleCreateRequest) error {
 	return nil
 }
 
-func (t *Article) EditView(id string) fiber.Map {
+func (t *Article) EditView(id string) admin2.ArticleEditView {
+	r := admin2.ArticleEditView{}
 	// 文章详情
 	ma := models.NewArticle()
 	a := ma.GetArticleByUid(id)
 	// 分类列表
 	mn := models.NewNavbar()
 	s := mn.GetWebNavBarList()
-	return fiber.Map{
-		"A": a,
-		"S": s,
-	}
+	r.Article = a
+	r.Navbar = s
+	return r
 }
 
 // Edit 编辑分类的post

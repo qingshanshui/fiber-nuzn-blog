@@ -1,6 +1,9 @@
 package admin
 
-import "fiber-nuzn-blog/validator/form"
+import (
+	"fiber-nuzn-blog/models"
+	"fiber-nuzn-blog/validator/form"
+)
 
 // ArticleHomeRequest 链接首页入口参数
 type ArticleHomeRequest struct {
@@ -20,6 +23,12 @@ type ArticleCreateRequest struct {
 
 // ArticleCreateResponse 链接首页出口参数
 type ArticleCreateResponse struct{}
+
+// ArticleEditView 链接首页入口参数
+type ArticleEditView struct {
+	Article *models.Article `json:"article"`
+	Navbar  []models.NavBar `json:"navbar"`
+}
 
 // ArticleEditRequest 链接首页入口参数
 type ArticleEditRequest struct {

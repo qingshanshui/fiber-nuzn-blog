@@ -71,8 +71,8 @@ func (t *ArticleController) EditView(c *fiber.Ctx) error {
 	// 实际业务调用
 	r := admin.NewArticleService().EditView(id)
 	return c.Render("admin/article/edit", fiber.Map{
-		"Sort":   r["A"],
-		"Result": r["S"],
+		"Sort":   r.Navbar,
+		"Result": r.Article,
 	}, "admin/layout/index")
 }
 
