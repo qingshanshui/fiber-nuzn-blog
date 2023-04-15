@@ -68,12 +68,12 @@ func SetRoute(app *fiber.App) {
 		linkAdminRouter := adminRouter.Group("link")
 		{
 			linkAdmin := LinkController.NewLinkController()
-			linkAdminRouter.Get("/", linkAdmin.GetAll)        // 友链首页
-			linkAdminRouter.Get("/add", linkAdmin.Add)        // 添加页面
-			linkAdminRouter.Post("/add", linkAdmin.AddPost)   // 添加接口
-			linkAdminRouter.Get("/edit", linkAdmin.Edit)      // 编辑页面
-			linkAdminRouter.Post("/edit", linkAdmin.EditPost) // 编辑接口
-			linkAdminRouter.Post("/del", linkAdmin.Del)       // 删除接口
+			linkAdminRouter.Get("/", linkAdmin.Home)         // 友链首页
+			linkAdminRouter.Get("/add", linkAdmin.AddView)   // 添加页面
+			linkAdminRouter.Post("/add", linkAdmin.Add)      // 添加接口
+			linkAdminRouter.Get("/edit", linkAdmin.EditView) // 编辑页面
+			linkAdminRouter.Post("/edit", linkAdmin.Edit)    // 编辑接口
+			linkAdminRouter.Post("/del", linkAdmin.Del)      // 删除接口
 		}
 	}
 }

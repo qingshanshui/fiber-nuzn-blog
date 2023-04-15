@@ -5,7 +5,6 @@ import (
 	"fiber-nuzn-blog/controllers"
 	"fiber-nuzn-blog/models"
 	"fiber-nuzn-blog/pkg/utils"
-	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/spf13/viper"
 )
@@ -28,8 +27,6 @@ func (t *LoginController) Post(c *fiber.Ctx) error {
 	// 接收参数
 	username := c.Query("username")
 	password := c.Query("password")
-
-	fmt.Println(username, password, "===========")
 
 	// 业务处理
 	if username == "" || password == "" {
