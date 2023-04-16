@@ -55,7 +55,7 @@ func (t *ArticleController) Add(c *fiber.Ctx) error {
 		return err
 	}
 	// 实际业务调用
-	err := serviceAdmin.NewArticleService().Add(ArticleCreateRequestForm)
+	err := serviceAdmin.NewArticleService().Add(ArticleCreateRequestForm, c)
 	if err != nil {
 		return c.JSON(t.Fail(errors.New("创建文章失败")))
 	} else {
@@ -84,7 +84,7 @@ func (t *ArticleController) Edit(c *fiber.Ctx) error {
 		return err
 	}
 	// 实际业务调用
-	err := serviceAdmin.NewArticleService().Edit(ArticleEditRequestForm)
+	err := serviceAdmin.NewArticleService().Edit(ArticleEditRequestForm, c)
 	if err != nil {
 		return c.JSON(t.Fail(errors.New("文章修改失败")))
 	} else {

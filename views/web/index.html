@@ -8,7 +8,7 @@
         {{range $index,$elem := .HotArticleList}}
         <li class="acrid-item fsc" title="{{$elem.Title}}">
             <div class="acrid-item-sort">
-                {{$index | index}}
+                {{$index}}
             </div>
             <div class="acrid-item-content hide">
                 <a href="/category/{{$elem.Uid}}.html">{{$elem.Title}}</a>

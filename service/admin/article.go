@@ -9,9 +9,7 @@ import (
 	"github.com/jaevor/go-nanoid"
 )
 
-type Article struct {
-	fiber.Ctx
-}
+type Article struct{}
 
 func NewArticleService() *Article {
 	return &Article{}
@@ -32,7 +30,7 @@ func (t *Article) AddView() []models.NavBar {
 }
 
 // Add 添加分类的post
-func (t *Article) Add(r validatorForm.ArticleCreateRequest) error {
+func (t *Article) Add(r validatorForm.ArticleCreateRequest, ctx *fiber.Ctx) error {
 	ma := models.NewArticle()
 	// 组装数据
 	canonical, _ := nanoid.Standard(36)
@@ -45,7 +43,7 @@ func (t *Article) Add(r validatorForm.ArticleCreateRequest) error {
 	ma.Pic = r.Pic
 	ma.Show = r.Show
 	ma.Sort = r.Sort
-	userinfo := t.Locals("userinfo").(map[string]interface{})
+	userinfo := ctx.Locals("userinfo").(map[string]interface{})
 	ma.UserId = userinfo["uid"].(string)
 	ma.UserName = userinfo["username"].(string)
 	// 业务处理
@@ -70,7 +68,7 @@ func (t *Article) EditView(id string) validatorForm.ArticleEditView {
 }
 
 // Edit 编辑分类的post
-func (t *Article) Edit(r validatorForm.ArticleEditRequest) error {
+func (t *Article) Edit(r validatorForm.ArticleEditRequest, ctx *fiber.Ctx) error {
 	ma := models.NewArticle()
 	// 组装数据
 	canonical, _ := nanoid.Standard(36)
@@ -83,7 +81,7 @@ func (t *Article) Edit(r validatorForm.ArticleEditRequest) error {
 	ma.Pic = r.Pic
 	ma.Show = r.Show
 	ma.Sort = r.Sort
-	userinfo := t.Locals("userinfo").(map[string]interface{})
+	userinfo := ctx.Locals("userinfo").(map[string]interface{})
 	ma.UserId = userinfo["uid"].(string)
 	ma.UserName = userinfo["username"].(string)
 	err := ma.Update(r.Id)
