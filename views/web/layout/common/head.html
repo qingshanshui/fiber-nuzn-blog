@@ -37,11 +37,6 @@
           {{range $index,$elem := .InitData.WebNavBarList}}
           <a href="/sort/{{$elem.Uid}}">{{$elem.Title}}</a>
           {{end}}
-          {{if .Cookie}}
-          <a href="/admin/home">管理中心</a>
-          {{else}}
-          <a href="/admin/login">登录</a>
-          {{end}}
         </nav>
       </div>
     </div>

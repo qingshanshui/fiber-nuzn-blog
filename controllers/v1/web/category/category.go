@@ -21,10 +21,7 @@ func (t *CategoryController) Category(c *fiber.Ctx) error {
 	InitData := t.InitData()
 	// 实际业务调用
 	result := web.NewCategoryService().Category(uid)
+	result.InitData = InitData
 	// 渲染页面
-	return c.Render("web/category/index", fiber.Map{
-		"ArticleCategory":     result.ArticleCategory,
-		"ArticleCategoryTime": result.ArticleCategoryTime,
-		"InitData":            InitData,
-	}, "web/layout/index")
+	return c.Render("web/category/index", result, "web/layout/index")
 }

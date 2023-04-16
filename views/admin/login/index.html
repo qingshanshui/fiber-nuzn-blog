@@ -1,65 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>登录页面</title>
-    <!-- ZUI 标准版压缩后的 CSS 文件 -->
     <link rel="stylesheet" href="//cdn.bootcdn.net/ajax/libs/zui/1.10.0/css/zui.min.css">
-    <!-- UIkit CSS -->
     <link rel="stylesheet" href="/css/uikit.min.css" />
 </head>
-
+<style>
+    html,
+    body {
+        height: 100%;
+    }
+    .login {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        background-color: #f7f8fa;
+    }
+    .container {
+        width: 100%;
+        background-color: var(--bag)
+    }
+    .login-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        max-width: 390px;
+        width: 100%;
+        margin: 0 auto;
+        box-shadow: 0 10px 30px -5px rgb(0 0 0 / 30%);
+    }
+    .login-content>div {
+        padding: 10px;
+        width: 100%;
+    }
+    .login-content-logo {
+        text-align: center;
+    }
+    .login-content-logo img {
+        width: 150px;
+    }
+    :focus:not([tabindex^='-']) {
+        outline: none
+    }
+</style>
 <body>
-    <style>
-        html,
-        body {
-            height: 100%;
-        }
-
-        .login {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            background-color: #f7f8fa;
-        }
-
-        .container {
-            width: 100%;
-            background-color: var(--bag)
-        }
-
-        .login-content {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            max-width: 390px;
-            width: 100%;
-            margin: 0 auto;
-            box-shadow: 0 10px 30px -5px rgb(0 0 0 / 30%);
-        }
-
-        .login-content>div {
-            padding: 10px;
-            width: 100%;
-        }
-
-        .login-content-logo {
-            text-align: center;
-        }
-
-        .login-content-logo img {
-            width: 150px;
-        }
-
-        :focus:not([tabindex^='-']) {
-            outline: none
-        }
-    </style>
     <div class="login w">
         <div class="container">
             <div class="login-content">
@@ -87,42 +76,32 @@
             </div>
         </div>
     </div>
-
-    <!-- ZUI Javascript 依赖 jQuery -->
     <script src="//cdn.bootcdn.net/ajax/libs/zui/1.10.0/lib/jquery/jquery.js"></script>
     <script src="/js/uikit.min.js"></script>
-    <!-- <script src="/static/js/jquery-3.6.0.min.js"></script> -->
-    <!-- ZUI 标准版压缩后的 JavaScript 文件 -->
     <script src="//cdn.bootcdn.net/ajax/libs/zui/1.10.0/js/zui.min.js"></script>
-
     <script type="text/javascript">
         let btn = document.querySelector(".login-content .login-content-submit .btn")
         btn.addEventListener("click", () => {
-            let user = document.querySelector("#inputAccountExampleUser")
-            let pass = document.querySelector("#inputPasswordExamplePass")
-            console.log(user.value, pass.value, "=====")
-            var data = {
-                username: user.value,
-                password: pass.value,
+            let data = {
+                username: document.querySelector("#inputAccountExampleUser").value,
+                password: document.querySelector("#inputPasswordExamplePass").value,
             }
             // 发生post请求
             $.ajax({
                 type: "POST",
-                url: `/admin/login?username=${user.value}&&password=${pass.value}`,
+                url: `/admin/login`,
                 data: data,
                 dataType: "json",
                 success: function (data) {
-                    document.cookie = "token=" + data.token + ";path=/"
-                    if (data.token) {
+                    if (data.data) {
+                        document.cookie = "token=" + data.data + ";path=/"
                         location.href = "/admin/home"
                     } else {
-                        UIkit.notification({ message: data.data, status: 'warning' })
+                        UIkit.notification({ message: data.msg, status: 'warning' })
                     }
                 }
             });
-
         })
     </script>
 </body>
-
 </html>

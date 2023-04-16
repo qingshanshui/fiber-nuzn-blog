@@ -1,12 +1,11 @@
 package LoginController
 
 import (
-	"errors"
 	"fiber-nuzn-blog/controllers"
-	"fiber-nuzn-blog/models"
-	"fiber-nuzn-blog/pkg/utils"
+	serviceAdmin "fiber-nuzn-blog/service/admin"
+	"fiber-nuzn-blog/validator"
+	validatorForm "fiber-nuzn-blog/validator/form/admin"
 	"github.com/gofiber/fiber/v2"
-	"github.com/spf13/viper"
 )
 
 type LoginController struct {
@@ -24,28 +23,18 @@ func (t *LoginController) Get(c *fiber.Ctx) error {
 
 // Post 登录
 func (t *LoginController) Post(c *fiber.Ctx) error {
-	// 接收参数
-	username := c.Query("username")
-	password := c.Query("password")
-
-	// 业务处理
-	if username == "" || password == "" {
-		return c.JSON(t.Fail(errors.New("用户名密码不能为空")))
-	}
-	mu := models.NewUser()
-	if err := mu.Login(username, password); err != nil {
+	// 初始化参数结构体
+	LoginRequestForm := validatorForm.LoginRequest{}
+	// 绑定参数并使用验证器验证参数
+	if err := validator.CheckPostParams(c, &LoginRequestForm); err != nil {
 		return c.JSON(t.Fail(err))
 	}
-	if mu.Uid != "" {
-		token, _ := utils.CreateToken(mu.Uid, viper.GetString("Jwt.Secret"))
-		return c.JSON(map[string]interface{}{
-			"code":  true,
-			"token": token,
-			"msg":   "登录成功",
-		})
-	} else {
-		return c.JSON(t.Fail(errors.New("用户名密码错误")))
+	// 实际业务调用
+	token, err := serviceAdmin.NewLoginService().Login(LoginRequestForm)
+	if err != nil {
+		return c.JSON(t.Fail(err))
 	}
+	return c.JSON(t.Ok(token))
 }
 
 // Logout 退出

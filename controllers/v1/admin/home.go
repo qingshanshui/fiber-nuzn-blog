@@ -15,5 +15,5 @@ func NewHomeController() *HomeController {
 
 // Home 首页
 func (t *HomeController) Home(c *fiber.Ctx) error {
-	return c.Render("admin/index", fiber.Map{}, "admin/layout/index")
+	return c.Render("admin/index", nil, "admin/layout/index")
 }

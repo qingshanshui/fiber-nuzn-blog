@@ -28,7 +28,7 @@ func SetRoute(app *fiber.App) {
 		//中间件:匹配路由前会执,可以用于权限验证
 		//adminRouter.Use(middleware.AdminAuth)
 		// 登录login
-		loginAdminRouter := adminRouter.Group("login")
+		loginAdminRouter := adminRouter.Group("/login")
 		{
 			login := LoginController.NewLoginController()
 			loginAdminRouter.Get("/", login.Get)          // 登录页面
@@ -42,7 +42,7 @@ func SetRoute(app *fiber.App) {
 			homeAdminRouter.Get("/", adminHome.Home) // 首页
 		}
 		// 文章
-		articleAdminRouter := adminRouter.Group("article")
+		articleAdminRouter := adminRouter.Group("/article")
 		{
 			articleAdmin := ArticleController.NewArticleController()
 			articleAdminRouter.Get("/", articleAdmin.Home)         // 文章首页
@@ -54,7 +54,7 @@ func SetRoute(app *fiber.App) {
 			articleAdminRouter.Post("/baidu", articleAdmin.Baidu)  // 百度推送接口
 		}
 		//导航栏
-		navbarAdminRouter := adminRouter.Group("navbar")
+		navbarAdminRouter := adminRouter.Group("/navbar")
 		{
 			navbarAdmin := NavBarController.NewNavbarController()
 			navbarAdminRouter.Get("/", navbarAdmin.Home)         // 导航栏管理页面
@@ -65,7 +65,7 @@ func SetRoute(app *fiber.App) {
 			navbarAdminRouter.Post("/del", navbarAdmin.Del)      // 删除接口
 		}
 		//友链
-		linkAdminRouter := adminRouter.Group("link")
+		linkAdminRouter := adminRouter.Group("/link")
 		{
 			linkAdmin := LinkController.NewLinkController()
 			linkAdminRouter.Get("/", linkAdmin.Home)         // 友链首页

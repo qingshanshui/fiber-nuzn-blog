@@ -40,7 +40,7 @@ func If(code []int) int {
 	return ERROR
 }
 
-// InitData 首页查询接口
+// InitData 公共调用
 func (r *Base) InitData() form.InitData {
 	// 导航栏
 	mn := models.NewNavbar()
