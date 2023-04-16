@@ -3,9 +3,9 @@ package LinkController
 import (
 	"errors"
 	"fiber-nuzn-blog/controllers"
-	"fiber-nuzn-blog/service/admin"
+	serviceAdmin "fiber-nuzn-blog/service/admin"
 	"fiber-nuzn-blog/validator"
-	admin2 "fiber-nuzn-blog/validator/form/admin"
+	validatorForm "fiber-nuzn-blog/validator/form/admin"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -19,7 +19,7 @@ func NewLinkController() *LinkController {
 
 // Home 获取友链
 func (t *LinkController) Home(c *fiber.Ctx) error {
-	r := admin.NewLinkService().Home()
+	r := serviceAdmin.NewLinkService().Home()
 	return c.Render("admin/link/index", fiber.Map{
 		"linkAll": r,
 	}, "admin/layout/index")
@@ -33,13 +33,13 @@ func (t *LinkController) AddView(c *fiber.Ctx) error {
 // Add 添加友链的post
 func (t *LinkController) Add(c *fiber.Ctx) error {
 	// 初始化参数结构体
-	LinkCreateRequestForm := admin2.LinkCreateRequest{}
+	LinkCreateRequestForm := validatorForm.LinkCreateRequest{}
 	// 绑定参数并使用验证器验证参数
 	if err := validator.CheckPostParams(c, &LinkCreateRequestForm); err != nil {
 		return err
 	}
 	// 实际业务调用
-	err := admin.NewLinkService().Add(LinkCreateRequestForm)
+	err := serviceAdmin.NewLinkService().Add(LinkCreateRequestForm)
 	if err != nil {
 		return c.JSON(t.Fail(errors.New("创建友链失败")))
 	} else {
@@ -52,7 +52,7 @@ func (t *LinkController) EditView(c *fiber.Ctx) error {
 	// 接收参数
 	id := c.FormValue("id")
 	// 业务处理
-	r := admin.NewLinkService().EditView(id)
+	r := serviceAdmin.NewLinkService().EditView(id)
 	return c.Render("admin/link/edit", fiber.Map{
 		"Result": r,
 	}, "admin/layout/index")
@@ -61,13 +61,13 @@ func (t *LinkController) EditView(c *fiber.Ctx) error {
 // Edit 编辑友链的post
 func (t *LinkController) Edit(c *fiber.Ctx) error {
 	// 初始化参数结构体
-	LinkEditRequestForm := admin2.LinkEditRequest{}
+	LinkEditRequestForm := validatorForm.LinkEditRequest{}
 	// 绑定参数并使用验证器验证参数
 	if err := validator.CheckPostParams(c, &LinkEditRequestForm); err != nil {
 		return err
 	}
 	// 实际业务调用
-	err := admin.NewLinkService().Edit(LinkEditRequestForm)
+	err := serviceAdmin.NewLinkService().Edit(LinkEditRequestForm)
 	if err != nil {
 		return c.JSON(t.Fail(errors.New("编辑友链失败")))
 	} else {
@@ -80,7 +80,7 @@ func (t *LinkController) Del(c *fiber.Ctx) error {
 	// 接收参数
 	id := c.FormValue("id")
 	// 实际业务调用
-	err := admin.NewLinkService().Del(id)
+	err := serviceAdmin.NewLinkService().Del(id)
 	if err != nil {
 		return c.JSON(t.Fail(errors.New("删除友链失败")))
 	} else {
