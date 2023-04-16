@@ -3,7 +3,7 @@ package admin
 import (
 	"errors"
 	"fiber-nuzn-blog/models"
-	admin2 "fiber-nuzn-blog/validator/form/admin"
+	validatorForm "fiber-nuzn-blog/validator/form/admin"
 	"github.com/jaevor/go-nanoid"
 )
 
@@ -21,7 +21,7 @@ func (t *Link) Home() []models.Link {
 }
 
 // Add 添加分类的post
-func (t *Link) Add(r admin2.LinkCreateRequest) error {
+func (t *Link) Add(r validatorForm.LinkCreateRequest) error {
 	ml := models.NewLink()
 	// 组装数据
 	canonical, _ := nanoid.Standard(36)
@@ -47,7 +47,7 @@ func (t *Link) EditView(id string) *models.Link {
 }
 
 // Edit 编辑分类的post
-func (t *Link) Edit(r admin2.LinkEditRequest) error {
+func (t *Link) Edit(r validatorForm.LinkEditRequest) error {
 	// 组装参数
 	ml := models.NewLink()
 	// 组装数据

@@ -4,11 +4,14 @@ import (
 	"errors"
 	"fiber-nuzn-blog/models"
 	"fiber-nuzn-blog/validator/form"
-	admin2 "fiber-nuzn-blog/validator/form/admin"
+	validatorForm "fiber-nuzn-blog/validator/form/admin"
+	"github.com/gofiber/fiber/v2"
 	"github.com/jaevor/go-nanoid"
 )
 
-type Article struct{}
+type Article struct {
+	fiber.Ctx
+}
 
 func NewArticleService() *Article {
 	return &Article{}
@@ -29,13 +32,7 @@ func (t *Article) AddView() []models.NavBar {
 }
 
 // Add 添加分类的post
-func (t *Article) Add(r admin2.ArticleCreateRequest) error {
-	// token 解析
-	//cookie := c.Cookies("token")
-	//MapClaims, err := utils.ParseToken(cookie, viper.GetString("Jwt.Secret"))
-	//if err != nil {
-	//	return c.JSON(t.Fail(errors.New("token解析失败")))
-	//}
+func (t *Article) Add(r validatorForm.ArticleCreateRequest) error {
 	ma := models.NewArticle()
 	// 组装数据
 	canonical, _ := nanoid.Standard(36)
@@ -48,9 +45,9 @@ func (t *Article) Add(r admin2.ArticleCreateRequest) error {
 	ma.Pic = r.Pic
 	ma.Show = r.Show
 	ma.Sort = r.Sort
-	//ma.UserId = MapClaims["user"].(map[string]interface{})["uid"].(string)
-	//ma.UserName = MapClaims["user"].(map[string]interface{})["username"].(string)
-
+	userinfo := t.Locals("userinfo").(map[string]interface{})
+	ma.UserId = userinfo["uid"].(string)
+	ma.UserName = userinfo["username"].(string)
 	// 业务处理
 	err := ma.Create()
 	if err != nil {
@@ -59,8 +56,8 @@ func (t *Article) Add(r admin2.ArticleCreateRequest) error {
 	return nil
 }
 
-func (t *Article) EditView(id string) admin2.ArticleEditView {
-	r := admin2.ArticleEditView{}
+func (t *Article) EditView(id string) validatorForm.ArticleEditView {
+	r := validatorForm.ArticleEditView{}
 	// 文章详情
 	ma := models.NewArticle()
 	a := ma.GetArticleByUid(id)
@@ -73,13 +70,7 @@ func (t *Article) EditView(id string) admin2.ArticleEditView {
 }
 
 // Edit 编辑分类的post
-func (t *Article) Edit(r admin2.ArticleEditRequest) error {
-	// token 解析
-	//cookie := c.Cookies("token")
-	//MapClaims, err := utils.ParseToken(cookie, viper.GetString("Jwt.Secret"))
-	//if err != nil {
-	//	return c.JSON(t.Fail(errors.New("token解析失败")))
-	//}
+func (t *Article) Edit(r validatorForm.ArticleEditRequest) error {
 	ma := models.NewArticle()
 	// 组装数据
 	canonical, _ := nanoid.Standard(36)
@@ -92,8 +83,9 @@ func (t *Article) Edit(r admin2.ArticleEditRequest) error {
 	ma.Pic = r.Pic
 	ma.Show = r.Show
 	ma.Sort = r.Sort
-	//ma.UserId = MapClaims["user"].(map[string]interface{})["uid"].(string)
-	//ma.UserName = MapClaims["user"].(map[string]interface{})["username"].(string)
+	userinfo := t.Locals("userinfo").(map[string]interface{})
+	ma.UserId = userinfo["uid"].(string)
+	ma.UserName = userinfo["username"].(string)
 	err := ma.Update(r.Id)
 	if err != nil {
 		return err

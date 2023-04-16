@@ -1,12 +1,12 @@
 package utils
 
 import (
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt/v5"
 	"time"
 )
 
 // CreateToken 设置token
-func CreateToken(user string, secret string) (string, error) {
+func CreateToken(user interface{}, secret string) (string, error) {
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user": user,
 		"exp":  time.Now().Add(time.Minute * 60 * 24 * 30).Unix(), // 30天
@@ -19,7 +19,7 @@ func CreateToken(user string, secret string) (string, error) {
 }
 
 // DeleteToken 删除token
-func DeleteToken(user string, secret string) (string, error) {
+func DeleteToken(user interface{}, secret string) (string, error) {
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user": user,
 		"exp":  time.Now().Add(time.Second * 1).Unix(), // 1秒

@@ -3,7 +3,7 @@ package admin
 import (
 	"errors"
 	"fiber-nuzn-blog/models"
-	admin2 "fiber-nuzn-blog/validator/form/admin"
+	validatorForm "fiber-nuzn-blog/validator/form/admin"
 	"github.com/jaevor/go-nanoid"
 )
 
@@ -21,7 +21,7 @@ func (t *Navbar) Home() []models.NavBar {
 }
 
 // Add 添加分类的post
-func (t *Navbar) Add(r admin2.NavbarRequest) error {
+func (t *Navbar) Add(r validatorForm.NavbarRequest) error {
 	// 组装数据
 	canonical, _ := nanoid.Standard(36)
 	uid := canonical()
@@ -45,7 +45,7 @@ func (t *Navbar) EditView(id string) *models.NavBar {
 }
 
 // Edit 编辑分类的post
-func (t *Navbar) Edit(r admin2.NavbarEditRequest) error {
+func (t *Navbar) Edit(r validatorForm.NavbarEditRequest) error {
 	// 组装参数
 	mn := models.NewNavbar()
 	mn.Title = r.Title

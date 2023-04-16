@@ -2,10 +2,12 @@ package LoginController
 
 import (
 	"fiber-nuzn-blog/controllers"
+	"fiber-nuzn-blog/pkg/utils"
 	serviceAdmin "fiber-nuzn-blog/service/admin"
 	"fiber-nuzn-blog/validator"
 	validatorForm "fiber-nuzn-blog/validator/form/admin"
 	"github.com/gofiber/fiber/v2"
+	"github.com/spf13/viper"
 )
 
 type LoginController struct {
@@ -40,5 +42,10 @@ func (t *LoginController) Post(c *fiber.Ctx) error {
 // Logout 退出
 func (t *LoginController) Logout(c *fiber.Ctx) error {
 	c.ClearCookie()
+	userinfo := c.Locals("userinfo").(map[string]interface{})
+	_, err := utils.DeleteToken(userinfo, viper.GetString("Jwt.Secret"))
+	if err != nil {
+		return err
+	}
 	return c.Redirect("/", 301)
 }

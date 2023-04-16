@@ -11,10 +11,11 @@ func AdminAuth(ctx *fiber.Ctx) error {
 	if cookie == "" {
 		return ctx.Redirect("/admin/login")
 	} else {
-		_, err := utils.ParseToken(cookie, viper.GetString("Jwt.Secret"))
+		user, err := utils.ParseToken(cookie, viper.GetString("Jwt.Secret"))
 		if err != nil {
 			return ctx.Redirect("/admin/login")
 		} else {
+			ctx.Locals("userinfo", user["user"])
 			return ctx.Next()
 		}
 	}

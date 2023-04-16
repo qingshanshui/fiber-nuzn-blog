@@ -9,6 +9,7 @@ import (
 	web2 "fiber-nuzn-blog/controllers/v1/web"
 	CategoryController "fiber-nuzn-blog/controllers/v1/web/category"
 	SortController "fiber-nuzn-blog/controllers/v1/web/sort"
+	"fiber-nuzn-blog/middleware"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -25,8 +26,6 @@ func SetRoute(app *fiber.App) {
 	// 博客后台api
 	adminRouter := app.Group("/admin")
 	{
-		//中间件:匹配路由前会执,可以用于权限验证
-		//adminRouter.Use(middleware.AdminAuth)
 		// 登录login
 		loginAdminRouter := adminRouter.Group("/login")
 		{
@@ -35,6 +34,8 @@ func SetRoute(app *fiber.App) {
 			loginAdminRouter.Post("/", login.Post)        // 登录
 			loginAdminRouter.Get("/logout", login.Logout) // 退出
 		}
+		//中间件:匹配路由前会执,可以用于权限验证
+		adminRouter.Use(middleware.AdminAuth)
 		// 首页
 		homeAdminRouter := adminRouter.Group("home")
 		{

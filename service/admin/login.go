@@ -25,7 +25,7 @@ func (t *Login) Login(r validatorForm.LoginRequest) (string, error) {
 		return "", err
 	}
 	if mu.Uid != "" {
-		token, _ := utils.CreateToken(mu.Uid, viper.GetString("Jwt.Secret"))
+		token, _ := utils.CreateToken(mu, viper.GetString("Jwt.Secret"))
 		return token, nil
 	}
 	return "", errors.New("登录失败")

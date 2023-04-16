@@ -3,9 +3,9 @@ package NavbarController
 import (
 	"errors"
 	"fiber-nuzn-blog/controllers"
-	"fiber-nuzn-blog/service/admin"
+	serviceAdmin "fiber-nuzn-blog/service/admin"
 	"fiber-nuzn-blog/validator"
-	admin2 "fiber-nuzn-blog/validator/form/admin"
+	validatorForm "fiber-nuzn-blog/validator/form/admin"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -20,7 +20,7 @@ func NewNavbarController() *NavbarController {
 // Home 导航栏管理页面
 func (t *NavbarController) Home(c *fiber.Ctx) error {
 	// 实际业务调用
-	result := admin.NewNavbarService().Home()
+	result := serviceAdmin.NewNavbarService().Home()
 	// 渲染页面
 	return c.Render("admin/navbar/index", fiber.Map{
 		"navBarAll": result,
@@ -35,13 +35,13 @@ func (t *NavbarController) AddView(c *fiber.Ctx) error {
 // Add 添加分类的post
 func (t *NavbarController) Add(c *fiber.Ctx) error {
 	// 初始化参数结构体
-	NavbarCreateResponseForm := admin2.NavbarRequest{}
+	NavbarCreateResponseForm := validatorForm.NavbarRequest{}
 	// 绑定参数并使用验证器验证参数
 	if err := validator.CheckPostParams(c, &NavbarCreateResponseForm); err != nil {
 		return err
 	}
 	// 实际业务调用
-	err := admin.NewNavbarService().Add(NavbarCreateResponseForm)
+	err := serviceAdmin.NewNavbarService().Add(NavbarCreateResponseForm)
 	if err != nil {
 		return c.JSON(t.Fail(errors.New("创建导航栏失败")))
 	} else {
@@ -54,7 +54,7 @@ func (t *NavbarController) EditView(c *fiber.Ctx) error {
 	// 接收参数
 	id := c.FormValue("id")
 	// 业务处理
-	r := admin.NewNavbarService().EditView(id)
+	r := serviceAdmin.NewNavbarService().EditView(id)
 	return c.Render("admin/navbar/edit", fiber.Map{
 		"Result": r,
 	}, "admin/layout/index")
@@ -63,13 +63,13 @@ func (t *NavbarController) EditView(c *fiber.Ctx) error {
 // Edit 编辑分类的post
 func (t *NavbarController) Edit(c *fiber.Ctx) error {
 	// 初始化参数结构体
-	NavbarCreateResponseForm := admin2.NavbarEditRequest{}
+	NavbarCreateResponseForm := validatorForm.NavbarEditRequest{}
 	// 绑定参数并使用验证器验证参数
 	if err := validator.CheckPostParams(c, &NavbarCreateResponseForm); err != nil {
 		return err
 	}
 	// 实际业务调用
-	err := admin.NewNavbarService().Edit(NavbarCreateResponseForm)
+	err := serviceAdmin.NewNavbarService().Edit(NavbarCreateResponseForm)
 	if err != nil {
 		return c.JSON(t.Fail(errors.New("编辑导航栏失败")))
 	} else {
@@ -81,7 +81,7 @@ func (t *NavbarController) Edit(c *fiber.Ctx) error {
 func (t *NavbarController) Del(c *fiber.Ctx) error {
 	id := c.FormValue("id")
 	// 实际业务调用
-	err := admin.NewNavbarService().Del(id)
+	err := serviceAdmin.NewNavbarService().Del(id)
 	if err != nil {
 		return c.JSON(t.Fail(errors.New("删除导航栏失败")))
 	} else {
